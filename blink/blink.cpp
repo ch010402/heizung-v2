@@ -3,13 +3,16 @@
 */
 
 #include <gpiod.h>
-#include <unistd.h>
+#include <unistd.h> //used for usleep
 
 int main(int argc, char **argv)
 {
+  // set the chip name as const
   const char *chipname = "gpiochip0";
+  // build gpiod lines
   struct gpiod_chip *chip;
   struct gpiod_line *led;
+  // vars
   int i;
 
   // open GPIO chip
@@ -22,8 +25,9 @@ int main(int argc, char **argv)
   // blink led
   i = 0;
   while (i < 51) {
+    // set the value of the gpiod line (name, ture/false)
     gpiod_line_set_value(led, (i & 1) != 0);
-    usleep(1000000);
+    usleep(1*1000000); //in sec
     i++;
   }
 
