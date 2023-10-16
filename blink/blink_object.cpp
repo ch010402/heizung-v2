@@ -17,13 +17,13 @@ bool debugOutput = true;
 
 // io class (string ioName, int gpioPin, string ioType)
 class io {
+private:
+  int ioPin;
+  bool initialized = false;
 public:
   std::string name;
   bool status = false;
   std::string type;
-private:
-  int ioPin;
-  bool initialized = false;
   // constructor
   io(std::string ioName, int gpioPin, std::string ioType) {
 	name = ioName;
