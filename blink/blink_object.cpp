@@ -11,7 +11,7 @@
 
 // variable
 int openLineCounter = 0;
-bool debugOutput = true;
+bool debugOutput = false;
 
 // classes 
 
@@ -55,10 +55,12 @@ public:
   void destroy() {
 	gpiod_line_release(line); // close GPIO line
 	openLineCounter--;
-	std::cout << "Line " << openLineCounter + 1 << " closed, " << openLineCounter << " remain." << std::endl;
+	if (debugOutput)
+	  std::cout << "Line " << openLineCounter + 1 << " closed, " << openLineCounter << " remain." << std::endl;
 	if (openLineCounter == 0) {
 	  gpiod_chip_close(chip); // close chip
-	  std::cout << "connection to chip closed" << std::endl;
+	  if (debugOutput)
+		std::cout << "connection to chip closed" << std::endl;
 	}
 	initialized = false;
   }
@@ -71,18 +73,11 @@ private:
 	line = gpiod_chip_get_line(chip, ioPin); // open GPIO line
 	gpiod_line_request_output(line, "output", 0); // request line as output
 	openLineCounter++;
-	std::cout <<"Line " << openLineCounter << " opend." << std::endl;
+	if (debugOutput)
+	  std::cout <<"Line " << openLineCounter << " opend." << std::endl;
 	initialized = true;
   }
 };
-
-// fuction
-bool checkName(std::string str) {
-  if (!std::regex_match(str, std::regex("[A-Za-z0-9\\-_]+")))
-	throw std::invalid_argument("Name should only contain letters -_ and numbers");
-  return 0;
-};
-
 
 // MAIN
 int main(int argc, char** argv) {
