@@ -11,11 +11,11 @@
 
 // variable
 int openLineCounter = 0;
-bool debugOutput = false;
+bool debugOutput = true;
 
 // classes 
 
-// io class (string ioName, int gpioPin, string ioType)
+// io class (string ioName, int gpioPin, ioType { pump, valve, breaker })
 class io {
 private:
   int ioPin;
@@ -23,12 +23,12 @@ private:
 public:
   std::string name;
   bool status = false;
-  std::string type;
+  enum type { pump, valve, breaker, io };
   // constructor
-  io(std::string ioName, int gpioPin, std::string ioType) {
+  io(std::string ioName, int gpioPin, type ioType) {
 	name = ioName;
 	ioPin = gpioPin;
-	type = ioType;
+	//type = ioType;
   }
   // member functinons
   void on() {
@@ -82,18 +82,18 @@ private:
 // MAIN
 int main(int argc, char** argv) {
   // setup
-  io rot1("rot1", 23, "led"), blue("blue", 22, "led");
+  io rot1("rot1", 23, "io"), blue("blue", 22, "led");
   int i = 0;
   // loop
-  while (i < 11) {
+  while (i < 6) {
 	rot1.toggle();
 	blue.on();
-	std::cout << "output " << rot1.name << " status " << rot1.status << std::endl;
-	usleep(0.1 * 1000000); //in sec
+//	std::cout << "output " << rot1.name << " status " << rot1.status << std::endl;
+	usleep(0.3 * 1000000); //in sec
 	rot1.toggle();
 	blue.off();
-	std::cout << "output " << blue.name << " status " << blue.status << std::endl;
-	usleep(1 * 1000000); //in sec
+//	std::cout << "output " << blue.name << " status " << blue.status << std::endl;
+	usleep(0.7 * 1000000); //in sec
 	i++;
 	std::cout << "loop ende" << std::endl;
   }
