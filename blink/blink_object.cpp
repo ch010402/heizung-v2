@@ -14,7 +14,7 @@ int openLineCounter = 0;
 bool debugOutput = true;
 // enumeration
 enum ioType {
-  pump, valve, breaker, io
+  pump, valve, breaker, led
 };
 
 // classes 
