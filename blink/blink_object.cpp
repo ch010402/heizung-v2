@@ -36,6 +36,17 @@ public:
 	gpiod_line_set_value(line, 0);
 	status = false;
   }
+  void toggle() {
+	if (!initialized) initialize();
+	if (status == false) {
+	  gpiod_line_set_value(line, 1);
+	  status = true;
+	}
+	if (status == true) {
+	  gpiod_line_set_value(line, 0);
+	  status = false;
+	}
+  }
   void destroy() {
 	gpiod_line_release(line); // close GPIO line
 	openLineCounter--;
@@ -75,11 +86,11 @@ int main(int argc, char** argv) {
   int i = 0;
   // loop
   while (i < 11) {
-	rot1.on();
+	rot1.toggle();
 	blue.on();
 	std::cout << "output " << rot1.name << " status " << rot1.status << std::endl;
 	usleep(0.1 * 1000000); //in sec
-	rot1.off();
+	rot1.toggle();
 	blue.off();
 	std::cout << "output " << blue.name << " status " << blue.status << std::endl;
 	usleep(1 * 1000000); //in sec
