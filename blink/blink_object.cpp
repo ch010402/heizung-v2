@@ -81,6 +81,7 @@ int main(int argc, char** argv) {
 	blue.off();
 	std::cout << "output " << blue.name << " status " << blue.status << std::endl;
 	usleep(1 * 1000000); //in sec
+	i++;
 	std::cout << "loop ende" << std::endl;
   }
   std::cout << openLineCounter << std::endl;
