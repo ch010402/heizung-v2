@@ -42,7 +42,7 @@ public:
 	  gpiod_line_set_value(line, 1);
 	  status = true;
 	}
-	if (status == true) {
+	else if (status == true) {
 	  gpiod_line_set_value(line, 0);
 	  status = false;
 	}
