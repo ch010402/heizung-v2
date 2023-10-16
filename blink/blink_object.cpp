@@ -39,6 +39,7 @@ public:
   void destroy() {
 	gpiod_line_release(line); // close GPIO line
 	openLineCounter--;
+	std::cout << openLineCounter << std::endl;
 	initialized = false;
   }
 private:
@@ -50,6 +51,7 @@ private:
 	line = gpiod_chip_get_line(chip, ioPin); // open GPIO line
 	gpiod_line_request_output(line, "output", 0); // request line as output
 	openLineCounter++;
+	std::cout << openLineCounter << std::endl;
 	initialized = true;
   }
 };
@@ -65,11 +67,8 @@ bool checkName(std::string str) {
 // MAIN
 int main(int argc, char** argv) {
   // setup
-  std::cout << openLineCounter << std::endl;
   io rot1("rot1", 23, "led");
-  std::cout << openLineCounter << std::endl;
   io blue("blue", 22, "led");
-  std::cout << openLineCounter << std::endl;
   int i = 0;
   // loop
   while (i < 11) {
@@ -84,11 +83,8 @@ int main(int argc, char** argv) {
 	i++;
 	std::cout << "loop ende" << std::endl;
   }
-  std::cout << openLineCounter << std::endl;
   rot1.destroy();
-  std::cout << openLineCounter << std::endl;
   blue.destroy();
-  std::cout << openLineCounter << std::endl;
   // end
   return 0;
 }
