@@ -58,11 +58,11 @@ bool checkName(std::string str) {
   return 0;
 };
 
-// variable
-int openLineCounter = 0;
 
 // MAIN
 int main(int argc, char** argv) {
+  // variable
+  int openLineCounter = 0;
   // setup
   std::cout << openLineCounter << std::endl;
   io rot1("rot1", 23, "led");
