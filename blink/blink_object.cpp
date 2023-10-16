@@ -39,6 +39,7 @@ public:
   void destroy() {
 	gpiod_line_release(line); // close GPIO line
 	openLineCounter--;
+	if (openLineCounter & 0)
 	std::cout << openLineCounter << std::endl;
 	initialized = false;
   }
@@ -67,8 +68,7 @@ bool checkName(std::string str) {
 // MAIN
 int main(int argc, char** argv) {
   // setup
-  io rot1("rot1", 23, "led");
-  io blue("blue", 22, "led");
+  io rot1("rot1", 23, "led"), blue("blue", 22, "led");
   int i = 0;
   // loop
   while (i < 11) {
