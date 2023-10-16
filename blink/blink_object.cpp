@@ -118,7 +118,7 @@ private:
 	ioClose(int pin2, ioType breaker);
 public:
   void open() {
-	mixer::ioClose.off();
+	ioClose().off();
 	ioOpen.toggle();
 	waitstep();
 	ioOpen.off();
