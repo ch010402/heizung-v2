@@ -114,7 +114,7 @@ public:
 	pin2 = gpioPin2;
   }
   io ioOpen(int pin1, ioType breaker),
-	ioClose(pin2, breaker);
+	ioClose(int pin2, ioType breaker);
 public:
   void open() {
 	ioClose.off();
