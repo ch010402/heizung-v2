@@ -32,13 +32,15 @@ private:
   bool initialized = false;
 public:
   // io name defined as std::string used for output
-  std::string name;
+ // std::string name;
+  char name[30];
   // io status default to false meaning off not set, reports the status as boolean 
   bool status = false;
   // ioType enumerate possible values {pump, valve, breaker, led}
   ioType typ;
   // constructor
-  io(std::string ioName, int gpioPin, ioType type) {
+//io(std::string ioName, int gpioPin, ioType type) {
+  io(char ioName[30], int gpioPin, ioType type) {
 	name = ioName;
 	ioPin = gpioPin;
 	typ = type;
@@ -109,7 +111,7 @@ private:
   int pin1, pin2;
 public:
   // constructor 
-  mixer(std::string mxName, int gpioPin1, int gpioPin2, int openCloseDuration) {
+  mixer(char mxName[30], int gpioPin1, int gpioPin2, int openCloseDuration) {
 	range = openCloseDuration;
 	pin1 = gpioPin1;
 	pin2 = gpioPin2;
