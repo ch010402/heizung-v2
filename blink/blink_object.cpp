@@ -113,7 +113,7 @@ public:
 	pin1 = gpioPin1;
 	pin2 = gpioPin2;
   }
-  io ioOpen(pin1, breaker),
+  io ioOpen(int pin1, ioType breaker),
 	ioClose(pin2, breaker);
 public:
   void open() {
