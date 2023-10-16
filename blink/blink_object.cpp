@@ -9,13 +9,6 @@
 #include <iostream> // cout
 #include <stdexcept>
 
-// fuction
-bool checkName(std::string str) {
-  if (!std::regex_match(str, std::regex("[A-Za-z0-9\\-_]+")))
-	throw std::invalid_argument("Name should only contain letters -_ and numbers");
-  return 0;
-};
-
 // classes 
 class io {
 public:
@@ -48,19 +41,34 @@ private:
 	chip = gpiod_chip_open_by_name(chipname); // open GPIO chip
 	line = gpiod_chip_get_line(chip, ioPin); // open GPIO line
 	gpiod_line_request_output(line, "output", 0); // request line as output
+	openLineCounter++;
 	initialized = true;
   }
   void destroy() {
 	gpiod_line_release(line); // close GPIO line
+	openLineCounter--;
 	initialized = false;
   }
 };
 
+// fuction
+bool checkName(std::string str) {
+  if (!std::regex_match(str, std::regex("[A-Za-z0-9\\-_]+")))
+	throw std::invalid_argument("Name should only contain letters -_ and numbers");
+  return 0;
+};
+
+// variable
+int openLineCounter = 0;
+
 // MAIN
 int main(int argc, char** argv) {
   // setup
+  std::cout << openLineCounter << std::endl;
   io rot1("rot1", 23, "led");
+  std::cout << openLineCounter << std::endl;
   io blue("blue", 22, "led");
+  std::cout << openLineCounter << std::endl;
   // loop
   while (true) {
 	rot1.on();
