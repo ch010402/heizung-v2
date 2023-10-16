@@ -9,6 +9,9 @@
 #include <iostream> // cout
 #include <stdexcept>
 
+// variable
+int openLineCounter = 0;
+
 // classes 
 class io {
 public:
@@ -61,8 +64,6 @@ bool checkName(std::string str) {
 
 // MAIN
 int main(int argc, char** argv) {
-  // variable
-  int openLineCounter = 0;
   // setup
   std::cout << openLineCounter << std::endl;
   io rot1("rot1", 23, "led");
