@@ -103,7 +103,7 @@ private:
 };
 
 // mixer class (string mxName, int gpioPin1, int gpioPin2, int openCloseDuration)
-class mixer:private io {
+class mixer {
 private:
   int range;
   int pin1, pin2;
@@ -114,8 +114,8 @@ public:
 	pin1 = gpioPin1;
 	pin2 = gpioPin2;
   }
-private:
-  io ioOpen("open", pin1, breaker), ioClose("close", pin2, breaker);
+  io ioOpen("open", pin1, breaker),
+	ioClose("close", pin2, breaker);
 public:
   void open() {
 	ioClose.off();
