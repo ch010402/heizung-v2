@@ -103,7 +103,7 @@ private:
 };
 
 // mixer class (string mxName, int gpioPin1, int gpioPin2, int openCloseDuration)
-class mixer {
+class mixer:private io {
 private:
   int range;
   int pin1, pin2;
