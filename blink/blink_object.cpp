@@ -102,13 +102,32 @@ private:
   }
 };
 
-// mixer class (string mxName, int gpioPin1, int gpioPin2)
+// mixer class (string mxName, int gpioPin1, int gpioPin2, int openCloseDuration)
 class mixer {
-
+private:
+  int range;
 public:
   // constructor 
-  mixer(std::string mxName, int gpioPin1, int gpioPin2) {
-	io open("open", gpioPin1, breaker), close("close", gpioPin2, breaker);
+  mixer(std::string mxName, int gpioPin1, int gpioPin2, int openCloseDuration) {
+	io ioOpen("open", gpioPin1, breaker), ioClose("close", gpioPin2, breaker);
+	range = openCloseDuration;
+  }
+  void open() {
+	ioClose.off();
+	ioOpen.toggle();
+	waitstep();
+	ioOpen.off();
+  }
+  void close() {
+	ioOpen.off();
+	ioClose.toggle();
+	waitstep();
+	ioClose.off();
+  }
+private:
+  void waitstep() {
+	// wait 1/10 of the full open close cycle in seconds
+	usleep(range * 1000000 /10)
   }
 };
 
@@ -120,7 +139,7 @@ int main(int argc, char** argv) {
   io rot1("rot1", 23, pump), 
 	blue("blue", 22, led);
 
-  mixer elektro("elektro", 5, 24);
+  mixer elektro("elektro", 5, 24, 82);
   
   // loop; i = loop counter
   int i = 0;
