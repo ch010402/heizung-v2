@@ -12,10 +12,14 @@
 // variable
 int openLineCounter = 0;
 bool debugOutput = true;
+// enumeration
+enum ioType {
+  pump, valve, breaker, io
+};
 
 // classes 
 
-// io class (string ioName, int gpioPin, ioType { pump, valve, breaker })
+// io class (string ioName, int gpioPin, enum ioType { pump, valve, breaker })
 class io {
 private:
   int ioPin;
@@ -23,12 +27,12 @@ private:
 public:
   std::string name;
   bool status = false;
-  enum type { pump, valve, breaker };
+  ioType typ;
   // constructor
-  io(std::string ioName, int gpioPin, type ioType) {
+  io(std::string ioName, int gpioPin, ioType type) {
 	name = ioName;
 	ioPin = gpioPin;
-	//type = ioType;
+	typ = type;
   }
   // member functinons
   void on() {
