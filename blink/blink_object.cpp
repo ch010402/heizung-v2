@@ -113,11 +113,12 @@ public:
 	pin1 = gpioPin1;
 	pin2 = gpioPin2;
   }
+private:
   io ioOpen(int pin1, ioType breaker),
 	ioClose(int pin2, ioType breaker);
 public:
   void open() {
-	ioClose.off();
+	mixer::ioClose.off();
 	ioOpen.toggle();
 	waitstep();
 	ioOpen.off();
