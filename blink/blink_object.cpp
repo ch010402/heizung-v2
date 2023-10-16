@@ -39,8 +39,11 @@ public:
   void destroy() {
 	gpiod_line_release(line); // close GPIO line
 	openLineCounter--;
-	if (openLineCounter & 0)
-	std::cout << openLineCounter << std::endl;
+	if (openLineCounter == 0) {
+	  gpiod_chip_close(chip); // close chip
+	  std::cout << "connection to chip closed" << std::endl;
+	}
+	std::cout << "Line " << openLineCounter + 1 << " closed, " << openLineCounter << " remain." << std::endl;
 	initialized = false;
   }
 private:
@@ -52,7 +55,7 @@ private:
 	line = gpiod_chip_get_line(chip, ioPin); // open GPIO line
 	gpiod_line_request_output(line, "output", 0); // request line as output
 	openLineCounter++;
-	std::cout << openLineCounter << std::endl;
+	std::cout <<"Line " << openLineCounter << "opend." << std::endl;
 	initialized = true;
   }
 };
