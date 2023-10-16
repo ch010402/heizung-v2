@@ -86,7 +86,7 @@ private:
 // MAIN
 int main(int argc, char** argv) {
   // setup
-  io rot1("rot1", 23, pump), blue("blue", 22, "led");
+  io rot1("rot1", 23, pump), blue("blue", 22, led);
   int i = 0;
   // loop
   while (i < 6) {
