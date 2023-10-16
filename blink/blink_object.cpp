@@ -104,7 +104,8 @@ private:
 class mixer {
 private:
   int range;
-  int pin1, pin2;
+  int pin1;
+  int pin2;
 public:
   // constructor 
   mixer(int gpioPin1, int gpioPin2, int openCloseDuration) {
