@@ -72,11 +72,11 @@ public:
 	gpiod_line_release(line); // close GPIO line
 	openLineCounter--;
 	if (debugOutput)
-	  std::cout << "Line " << openLineCounter + 1 << " closed, " << openLineCounter << " remain." << std::endl;
+	  std::cout << "IO line " << openLineCounter + 1 << " closed, " << openLineCounter << " remain." << std::endl;
 	if (openLineCounter == 0) {
 	  gpiod_chip_close(chip); // close chip
 	  if (debugOutput)
-		std::cout << "connection to chip closed" << std::endl;
+		std::cout << "Connection to chip closed" << std::endl;
 	}
 	initialized = false;
   }
@@ -97,7 +97,7 @@ private:
 	gpiod_line_request_output(line, "output", 0); 
 	openLineCounter++;
 	if (debugOutput)
-	  std::cout <<"Line " << openLineCounter << " opend." << std::endl;
+	  std::cout <<"IO line " << openLineCounter << " opend." << std::endl;
 	initialized = true;
   }
 };
@@ -122,7 +122,7 @@ int main(int argc, char** argv) {
 //	std::cout << "output " << blue.name << " status " << blue.status << std::endl;
 	usleep(0.7 * 1000000); //in sec
 	i++;
-	std::cout << "loop ende" << std::endl;
+	std::cout << "Loop end." << std::endl;
   }
   rot1.destroy();
   blue.destroy();
