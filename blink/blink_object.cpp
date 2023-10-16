@@ -106,12 +106,17 @@ private:
 class mixer {
 private:
   int range;
+  int pin1, pin2;
 public:
   // constructor 
   mixer(std::string mxName, int gpioPin1, int gpioPin2, int openCloseDuration) {
-	io ioOpen("open", gpioPin1, breaker), ioClose("close", gpioPin2, breaker);
 	range = openCloseDuration;
+	pin1 = gpioPin1;
+	pin2 = gpioPin2;
   }
+private:
+  io ioOpen("open", pin1, breaker), ioClose("close", pin2, breaker);
+public:
   void open() {
 	ioClose.off();
 	ioOpen.toggle();
@@ -127,7 +132,7 @@ public:
 private:
   void waitstep() {
 	// wait 1/10 of the full open close cycle in seconds
-	usleep(range * 1000000 /10)
+	usleep(range * 1000000 / 10);
   }
 };
 
