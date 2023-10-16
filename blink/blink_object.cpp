@@ -23,7 +23,7 @@ private:
 public:
   std::string name;
   bool status = false;
-  enum type { pump, valve, breaker, io };
+  enum type { pump, valve, breaker };
   // constructor
   io(std::string ioName, int gpioPin, type ioType) {
 	name = ioName;
@@ -82,7 +82,7 @@ private:
 // MAIN
 int main(int argc, char** argv) {
   // setup
-  io rot1("rot1", 23, "io"), blue("blue", 22, "led");
+  io rot1("rot1", 23, "pump"), blue("blue", 22, "led");
   int i = 0;
   // loop
   while (i < 6) {
