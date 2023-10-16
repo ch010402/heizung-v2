@@ -40,7 +40,7 @@ public:
   ioType typ;
   // constructor
 //io(std::string ioName, int gpioPin, ioType type) {
-  io(char ioName[30], int gpioPin, ioType type) {
+  io(char ioName, int gpioPin, ioType type) {
 	name = ioName;
 	ioPin = gpioPin;
 	typ = type;
