@@ -103,7 +103,7 @@ private:
 };
 
 // mixer class (string mxName, int gpioPin1, int gpioPin2)
-class mixer:public io {
+class mixer {
 
 public:
   // constructor 
