@@ -102,6 +102,16 @@ private:
   }
 };
 
+// mixer class (string mxName, int gpioPin1, int gpioPin2)
+class mixer:public io {
+
+public:
+  // constructor 
+  mixer(std::string mxName, int gpioPin1, int gpioPin2) {
+	io open("open", gpioPin1, breaker), close("close", gpioPin2, breaker);
+  }
+};
+
 //// MAIN
 int main(int argc, char** argv) {
   //// setup
@@ -109,6 +119,8 @@ int main(int argc, char** argv) {
   // build io objects 
   io rot1("rot1", 23, pump), 
 	blue("blue", 22, led);
+
+  mixer elektro("elektro", 5, 24);
   
   // loop; i = loop counter
   int i = 0;
