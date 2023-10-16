@@ -11,21 +11,26 @@
 
 // variable
 int openLineCounter = 0;
+bool debugOutput = true;
 
 // classes 
+
+// io class (string ioName, int gpioPin, string ioType)
 class io {
 public:
   std::string name;
-  int ioPin;
   bool status = false;
-  bool initialized = false;
   std::string type;
+private:
+  int ioPin;
+  bool initialized = false;
   // constructor
   io(std::string ioName, int gpioPin, std::string ioType) {
 	name = ioName;
 	ioPin = gpioPin;
 	type = ioType;
   }
+  // member functinons
   void on() {
 	if (!initialized) initialize();
 	gpiod_line_set_value(line, 1);
