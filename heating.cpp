@@ -114,10 +114,10 @@ class mixer {
 private:
   // int openCloseDuration_ is the duration the mixer requires to move from fully closed to fully opend
   int openCloseDuration_;
-  // int currentStep_ stores the current step the mixer is at
-  int currentStep_ = 0;
   // int steps_ the total number of steps
   int steps_;
+  // int currentStep_ stores the current step the mixer is at
+  int currentStep_ = 0;
   // io ioOpen ioClose as a mixer needs two output one to open and one to close 
   io ioOpen, ioClose;
   // bool initilaized_ true if the postion of the mixer is known, default to false 
@@ -128,11 +128,11 @@ public:
 
   //// default constructor 
   mixer(std::string mxName, int gpioPin1, int gpioPin2, int openCloseDuration, int steps) :
+	openCloseDuration_(openCloseDuration),
+	steps_(steps),
 	ioOpen(mxName + ".open", gpioPin1, switcher),
 	ioClose(mxName + ".close", gpioPin2, switcher),
-	mxName_(mxName),
-	openCloseDuration_(openCloseDuration),
-	steps_(steps) {
+	mxName_(mxName) {
 	initialize();
   }
 
