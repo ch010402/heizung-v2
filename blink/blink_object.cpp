@@ -160,7 +160,7 @@ int main(int argc, char** argv) {
 	elektro.close();
 	elektro.open();
 	i++;
-	std::cout << "Loop end." << std::endl;
+	std::cout << "Loop "<< i << " end." << std::endl;
   }
   //clean up
   elektro.destroy();
