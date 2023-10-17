@@ -22,7 +22,8 @@ enum ioType {
   pump,
   valve,
   switcher,
-  mixer
+  mixer,
+  led
 };
 
 /*classes*/
@@ -191,6 +192,15 @@ private:
 /*main*/
 
 int main(int argc, char** argv) {
-
+  //// setup
+  io blue("blue led", 22, led);
+  //// loop
+  for (int i = 0; i < 10; i++) {
+	blue.on();
+	usleep(0.3 * 1000000);
+	blue.off();
+	usleep(0.7 * 1000000);
+  }
+  //// close 
   return 0;
 }
