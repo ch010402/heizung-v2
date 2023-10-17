@@ -45,7 +45,7 @@ public:
   ioType type_;
 
   //// default constructor 
-  io(std::string ioName, int gpioPin, ioType type) : ioName_(ioName), gpioPin_(gpioPin), type_(type) {}
+  io(std::string ioName, int gpioPin, ioType type) : gpioPin_(gpioPin), ioName_(ioName), type_(type) {}
 
   //// functions
 
