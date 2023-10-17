@@ -152,6 +152,8 @@ int main(int argc, char** argv) {
 	blue.off();
 //	std::cout << "output " << blue.name << " status " << blue.status << std::endl;
 	usleep(0.7 * 1000000); //in sec
+	elektro.close();
+	elektro.open();
 	i++;
 	std::cout << "Loop end." << std::endl;
   }
