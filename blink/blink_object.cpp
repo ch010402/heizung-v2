@@ -113,7 +113,7 @@ public:
   }
 public:
   void open() {
-	ioClose().off();
+	ioClose.off();
 	ioOpen.toggle();
 	waitstep();
 	ioOpen.off();
