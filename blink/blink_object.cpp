@@ -104,18 +104,13 @@ private:
 class mixer {
 private:
   int range;
-  int pin1;
-  int pin2;
+  io ioOpen, ioClose;
 public:
   // constructor 
-  mixer(int gpioPin1, int gpioPin2, int openCloseDuration) {
+  mixer(int gpioPin1, int gpioPin2, int openCloseDuration)
+	: ioOpen(gpioPin1), ioClose(gpioPin2) {
 	range = openCloseDuration;
-	pin1 = gpioPin1;
-	pin2 = gpioPin2;
   }
-private:
-  io ioOpen(int pin1, ioType breaker),
-	ioClose(int pin2, ioType breaker);
 public:
   void open() {
 	ioClose().off();
