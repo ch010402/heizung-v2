@@ -20,6 +20,8 @@
 * 						   |  Ofenpumpe Stufe3		12
 * 						   |  reserve 1				18
 * 						   |  reserve 2				27
+* 
+* (c) Christoph Latzer 2023-Oct-17
 */					   
 
 #include <iostream> // used for interacting with the console (cout)
