@@ -206,7 +206,7 @@ private:
 int main(int argc, char** argv) {
   //// setup
   io blue("blue led", 22, led);
-  mixer red("red", 23, 5, 15, 7);
+  mixer red("red", 23, 5, 15, 16);
   //// loop
 
   //test io 
