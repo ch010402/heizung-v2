@@ -128,9 +128,9 @@ public:
 
   //// default constructor 
   mixer(std::string mxName, int gpioPin1, int gpioPin2, int openCloseDuration, int steps) :
-	mxName_(mxName),
 	ioOpen(mxName + ".open", gpioPin1, switcher),
 	ioClose(mxName + ".close", gpioPin2, switcher),
+	mxName_(mxName),
 	openCloseDuration_(openCloseDuration),
 	steps_(steps) {
 	initialize();
