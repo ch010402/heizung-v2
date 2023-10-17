@@ -108,7 +108,7 @@ private:
 public:
   // constructor 
   mixer(int gpioPin1, int gpioPin2, int openCloseDuration)
-	: ioOpen(gpioPin1), ioClose(gpioPin2) {
+	: ioOpen(gpioPin1, breaker), ioClose(gpioPin2, breaker) {
 	range = openCloseDuration;
   }
 public:
