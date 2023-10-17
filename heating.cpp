@@ -4,19 +4,23 @@
 * this is the second version based on libgpiod as wiringPi is depriciated and no longer in the distro
 * the current version is (libgpiod) v1.6.3 supplied with debian bookworm arm64
 * 
-* Output of test board
-* red1	  23
-  red2	   5
-  red3	  24
-  yellow1 25
-  yellow2 12
-  yellow3 16
-  green1  19
-  green2  26
-  green3  20
-  blue    22
-* 
-*/
+* Output of: TEST board	   |  PRODUCTION board
+*			 red1	  23   |  Elektropumpe			26
+*			 red2	  5	   |  Elektrorelais an/aus	4
+*			 red3	  24   |  Elektromischer auf	25
+*			 yellow1  25   |  Elektromischer zu		24
+*			 yellow2  12   |  Boilerpumpe			20
+*			 yellow3  16   |  Boilerventil auf/zu	5
+*			 green1	  19   |  Heizmischer auf		13
+*			 green2	  26   |  Heizmischer zu		6
+*			 green3	  20   |  Speicherventl auf/zu	3
+*			 blue	  22   |  Umlaufpumpe			21
+* 						   |  Ofenpumpe Stufe1		19
+* 						   |  Ofenpumpe Stufe2		16
+* 						   |  Ofenpumpe Stufe3		12
+* 						   |  reserve 1				18
+* 						   |  reserve 2				27
+*/					   
 
 #include <iostream> // used for interacting with the console (cout)
 #include <gpiod.h> // library to access GPIOs on a device 
