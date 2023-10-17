@@ -103,13 +103,14 @@ private:
 // mixer class (string mxName, int gpioPin1, int gpioPin2, int openCloseDuration)
 class mixer {
 private:
-  int range;
+  int range, step;
   io ioOpen, ioClose;
 public:
   // constructor 
-  mixer(int gpioPin1, int gpioPin2, int openCloseDuration)
+  mixer(int gpioPin1, int gpioPin2, int openCloseDuration, int steps)
 	: ioOpen(gpioPin1, breaker), ioClose(gpioPin2, breaker) {
 	range = openCloseDuration;
+	////step = steps;
   }
 public:
   void open() {
@@ -124,10 +125,14 @@ public:
 	waitstep();
 	ioClose.off();
   }
+  void destroy() {
+	ioOpen.destroy();
+	ioClose.destroy();
+  }
 private:
   void waitstep() {
 	// wait 1/10 of the full open close cycle in seconds
-	usleep(range * 1000000 / 10);
+	usleep(range * 1000000 / step);
   }
 };
 
@@ -139,7 +144,7 @@ int main(int argc, char** argv) {
   io rot1(23, pump), 
 	blue(22, led);
 
-  mixer elektro(5, 24, 82);
+  mixer elektro(5, 24, 82, 10);
   
   // loop; i = loop counter
   int i = 0;
@@ -157,6 +162,8 @@ int main(int argc, char** argv) {
 	i++;
 	std::cout << "Loop end." << std::endl;
   }
+  //clean up
+  elektro.destroy();
   rot1.destroy();
   blue.destroy();
   // end
