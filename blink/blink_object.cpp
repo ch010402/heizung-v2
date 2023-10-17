@@ -110,7 +110,7 @@ public:
   mixer(int gpioPin1, int gpioPin2, int openCloseDuration, int steps)
 	: ioOpen(gpioPin1, breaker), ioClose(gpioPin2, breaker) {
 	range = openCloseDuration;
-	////step = steps;
+	step = steps;
   }
 public:
   void open() {
