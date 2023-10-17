@@ -5,21 +5,21 @@
 * the current version is (libgpiod) v1.6.3 supplied with debian bookworm arm64
 * 
 * Output of: TEST board	   |  PRODUCTION board
-*			 red1	  23   |  Elektropumpe			26
-*			 red2	  5	   |  Elektrorelais an/aus	4
-*			 red3	  24   |  Elektromischer auf	25
-*			 yellow1  25   |  Elektromischer zu		24
-*			 yellow2  12   |  Boilerpumpe			20
-*			 yellow3  16   |  Boilerventil auf/zu	5
-*			 green1	  19   |  Heizmischer auf		13
-*			 green2	  26   |  Heizmischer zu		6
-*			 green3	  20   |  Speicherventl auf/zu	3
-*			 blue	  22   |  Umlaufpumpe			21
-* 						   |  Ofenpumpe Stufe1		19
-* 						   |  Ofenpumpe Stufe2		16
-* 						   |  Ofenpumpe Stufe3		12
-* 						   |  reserve 1				18
-* 						   |  reserve 2				27
+*            red1     23   |  Elektropumpe         26
+*            red2      5   |  Elektrorelais an/aus  4
+*            red3     24   |  Elektromischer auf   25
+*            yellow1  25   |  Elektromischer zu    24
+*            yellow2  12   |  Boilerpumpe          20
+*            yellow3  16   |  Boilerventil auf/zu   5
+*            green1   19   |  Heizmischer auf      13
+*            green2   26   |  Heizmischer zu        6
+*            green3   20   |  Speicherventl auf/zu  3
+*            blue     22   |  Umlaufpumpe          21
+*                          |  Ofenpumpe Stufe1     19
+*                          |  Ofenpumpe Stufe2     16
+*                          |  Ofenpumpe Stufe3     12
+*                          |  reserve 1	           18
+*                          |  reserve 2	           27
 * 
 * (c) Christoph Latzer 2023-Oct-17
 */					   
