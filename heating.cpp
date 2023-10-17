@@ -3,6 +3,19 @@
 * heating controlls IO's on a raspberryPi that controll my house heating 
 * this is the second version based on libgpiod as wiringPi is depriciated and no longer in the distro
 * the current version is (libgpiod) v1.6.3 supplied with debian bookworm arm64
+* 
+* Output of test board
+* red1	  23
+  red2	   5
+  red3	  24
+  yellow1 25
+  yellow2 12
+  yellow3 16
+  green1  19
+  green2  26
+  green3  20
+  blue    22
+* 
 */
 
 #include <iostream> // used for interacting with the console (cout)
@@ -22,7 +35,6 @@ enum ioType {
   pump,
   valve,
   switcher,
-  mixer,
   led
 };
 
@@ -194,13 +206,24 @@ private:
 int main(int argc, char** argv) {
   //// setup
   io blue("blue led", 22, led);
+  mixer red("red", 23, 5, 20, 10);
   //// loop
+
+  //test io 
   for (int i = 0; i < 10; i++) {
 	blue.on();
 	usleep(0.3 * 1000000);
 	blue.off();
 	usleep(0.7 * 1000000);
   }
+
+  //test mixer
+  for (int j = 0; j < 10; j++) {
+	red.open();
+	red.close();
+  }
   //// close 
+  blue.destroy();
+  red.destroy();
   return 0;
 }
