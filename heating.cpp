@@ -262,6 +262,8 @@ int main(int argc, char** argv) {
   io red3("HighTarif", 24, led), green1("LowTarif", 19, led);
   
   //// start
+  int ioCount = io::getInstanceCount();
+  std::cout << ioCount << " instances created." << std::endl;
 
   //test HT or LT
   if (checkLowTarif()) {
@@ -288,7 +290,5 @@ int main(int argc, char** argv) {
   }
 
   //// close 
-  int ioCount = io::getInstanceCount();
-  std::cout << ioCount << " instces created." << std::endl;
   return 0;
 }
