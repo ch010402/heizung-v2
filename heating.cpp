@@ -254,11 +254,9 @@ int main(int argc, char** argv) {
 
   if (checkLowTarif()) {
 	green1.on();
-	std::cout << "green" << std::endl;
   }
   else {
 	red3.on();
-	std::cout << "red" << std::endl;
   }
 
   //test io 
