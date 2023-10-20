@@ -66,7 +66,25 @@ public:
   ioType type_;
 
   //// default constructor 
-  io(std::string ioName, int gpioPin, ioType type) : gpioPin_(gpioPin), ioName_(ioName), type_(type) {}
+  io(std::string ioName, int gpioPin, ioType type) : gpioPin_(gpioPin), ioName_(ioName), type_(type) {
+	instanceCount++;
+  }
+
+  //// default destructor 
+  ~io() {
+	 // decrease number of instances
+	instanceCount--;
+	// switch the io off in any case it would be on.
+	off();
+	// close the line to the IO
+	gpiod_line_release(line);
+	// closes the connectin to the chip if no line is open
+	if (in == 0) {
+	  gpiod_chip_close(chip);
+	  std::cout << "Connection to chip closed, good bye." << std::endl;
+	}
+	initilized_ = false;
+  }
 
   //// functions
 
@@ -98,7 +116,9 @@ public:
 	}
   }
   // io.destroy() function closes the line to the io and if it is the last line closes the connection to the chip
+  /*
   void destroy() {
+	// switch the io off in any case it would be on.
 	off();
 	// close the line to the IO
 	gpiod_line_release(line);
@@ -108,7 +128,14 @@ public:
 	  gpiod_chip_close(chip);
 	initilized_ = false;
   }
+  */
+  static int getInstanceCount() {
+	return instanceCount;
+  }
+
 private:
+  // use for counting how many instances of this object where created to close connection to the chip
+  static int instanceCount;
   // set the chip name as const as we use a raspberryPi we have a "gpiochip0" 
   // this is currently static, if we would like to use a different board this value neeeds to be adjusted 
   const char* chipName_ = "gpiochip0";
@@ -187,10 +214,12 @@ public:
 	}
   }
   //mixer.destroy() function closes the line to the io's and if it is the last line closes the connection to the chip
+  /*
   void destroy() {
 	ioOpen.destroy();
 	ioClose.destroy();
   }
+  */
 private:
   // mixer.waitOneStep waits 1/step of the full open close cycle in seconds
   void waitOneStep() {
@@ -279,9 +308,11 @@ int main(int argc, char** argv) {
   }
 
   //// close 
+  /*
   blue.destroy();
   red.destroy();
   red3.destroy();
   green1.destroy();
+  */
   return 0;
 }
