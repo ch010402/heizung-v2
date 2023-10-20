@@ -31,12 +31,6 @@
 #include <chrono>   // used to access the system time 
 #include <ctime>    // to manipulate the t_time 
 
-/*global  variables*/
-
-// counter for how many lines to the gpio chip are open 
-//int openLineCounter = 0;
-
-int io::instanceCount = 0;
 
 /*enumerations*/
 
@@ -274,6 +268,13 @@ bool checkLowTarif() {
   }
   return false;
 }
+
+/*global  variables*/
+
+// counter for how many lines to the gpio chip are open 
+//int openLineCounter = 0;
+
+int io::instanceCount = 0;
 
 /*main*/
 
