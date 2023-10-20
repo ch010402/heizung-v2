@@ -257,6 +257,7 @@ int main(int argc, char** argv) {
   }
   else {
 	green1.on();
+	std::cout << "green" << std::endl;
   }
 
   //test io 
