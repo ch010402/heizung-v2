@@ -9,6 +9,7 @@ int main() {
   // Convert the system time to a time_point object
   std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
 
+  // Convert the time_point to a string representation
   std::string currenTimeStr = std::ctime(&currentTime_t);
 
   // Convert the time_point to a struct tm
