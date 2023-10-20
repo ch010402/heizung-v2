@@ -21,6 +21,7 @@ int main() {
   int hour = currentTime_tm->tm_hour;         // Hour
   int minute = currentTime_tm->tm_min;        // Minute
   int second = currentTime_tm->tm_sec;        // Second
+  int dayOfTheWeek = currentTime_tm->tm_wday; // days since sunday
 
   // Print individual components
   std::cout << "Year: " << year << std::endl;
@@ -29,6 +30,7 @@ int main() {
   std::cout << "Hour: " << hour << std::endl;
   std::cout << "Minute: " << minute << std::endl;
   std::cout << "Second: " << second << std::endl;
+  std::cout << "Day of the week: " << dayOfTheWeek << std::endl;
   
   
   std::cout << currenTimeStr;
