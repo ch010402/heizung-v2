@@ -249,7 +249,7 @@ int main(int argc, char** argv) {
   //// setup
   io blue("blue led", 22, led);
   mixer red("red", 23, 5, 15, 16);
-  io red3("HighTarif", 2, led), green1("LowTarif",19,led);
+  io red3("HighTarif", 2, led), green1("LowTarif", 26, led);
   //// loop
 
   if (checkLowTarif()) {
