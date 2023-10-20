@@ -9,7 +9,7 @@ int main() {
 
   std::string currenTimeStr = std::ctime(&currentTime_t);
 
-  std::count << currenTimeStr;
+  std::cout << currenTimeStr;
 
   return 0;
 }
