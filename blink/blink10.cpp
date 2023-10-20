@@ -63,7 +63,7 @@ int main(int argc, char **argv)
     gpiod_line_set_value(green2, (i & 128) != 0);
     gpiod_line_set_value(green3, (i & 256) != 0);
     gpiod_line_set_value(blue, (i & 512) != 0);
-    usleep(0.5 * 1000000); //in sec
+    usleep(0.1 * 1000000); //in sec
     i++;
   }
 
