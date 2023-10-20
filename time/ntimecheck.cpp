@@ -28,7 +28,7 @@ bool checkNiederTarif() {
   if (weekday == 0 || weekday == 6) {
 	return true;
   }
-  else if (hour < 7 || hour >= 20) {
+  else if (hour < 7 || hour >= 21) {
 	return true;
   }
 
