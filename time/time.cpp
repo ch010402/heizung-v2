@@ -3,4 +3,4 @@
 
 auto now = std::chrono::system_clock::now();
 
-cout << now;
+std::cout << now;
