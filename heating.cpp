@@ -25,9 +25,11 @@
 */					   
 
 #include <iostream> // used for interacting with the console (cout)
-#include <gpiod.h> // library to access GPIOs on a device 
+#include <gpiod.h>  // library to access GPIOs on a device 
 #include <unistd.h> // used for usleep //myabe replace by chrono
-#include <string> // used for strings
+#include <string>   // used for strings
+#include <chrono>   // used to access the system time 
+#include <ctime>    // to manipulate the t_time 
 
 /*global  variables*/
 
@@ -207,13 +209,55 @@ private:
   }
 };
 
+/*functions*/
+
+// FUNCTION checkLowTarif()
+// returns boolean ture or false
+bool checkLowTarif() {
+  // Get the current system time using the system clock
+  auto currentTime = std::chrono::system_clock::now();
+  // Convert the system time to a time_point object
+  std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
+  // Convert the time_point to a string representation
+  std::string currentTimeStr = std::ctime(&currentTime_t);
+  // Convert the time_point to a struct tm
+  std::tm* currentTime_tm = std::localtime(&currentTime_t);
+
+  // Extract individual components
+  //  int year = currentTime_tm->tm_year + 1900;  // Years since 1900
+  //  int month = currentTime_tm->tm_mon + 1;     // Month (0-based index)
+  //  int day = currentTime_tm->tm_mday;          // Day of the month
+  int hour = currentTime_tm->tm_hour;         // Hour
+  //  int minute = currentTime_tm->tm_min;        // Minute
+  //  int second = currentTime_tm->tm_sec;        // Second
+  int weekday = currentTime_tm->tm_wday;      // days since sunday
+
+  //debug std::cout << currentTimeStr << std::endl;
+
+  if (weekday == 0 || weekday == 6) {
+	return true;
+  }
+  else if (hour < 7 || hour >= 20) {
+	return true;
+  }
+  return false;
+}
+
 /*main*/
 
 int main(int argc, char** argv) {
   //// setup
   io blue("blue led", 22, led);
   mixer red("red", 23, 5, 15, 16);
+  io red3("HighTarif", 2, led), green1("LowTarif",19,led);
   //// loop
+
+  if (checkLowTarif()) {
+	red3.on();
+  }
+  else {
+	green1.on();
+  }
 
   //test io 
   for (int i = 0; i < 10; i++) {
@@ -228,8 +272,11 @@ int main(int argc, char** argv) {
 	red.open();
 	red.close();
   }
+
   //// close 
   blue.destroy();
   red.destroy();
+  red3.destroy();
+  green1.destroy();
   return 0;
 }
