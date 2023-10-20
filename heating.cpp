@@ -251,7 +251,8 @@ int main(int argc, char** argv) {
   io blue("blue led", 22, led);
   mixer red("red", 23, 5, 5, 16);
   io red3("HighTarif", 24, led), green1("LowTarif", 19, led);
-  //// loop
+  
+  //// start
 
   //test HT or LT
   if (checkLowTarif()) {
@@ -260,6 +261,8 @@ int main(int argc, char** argv) {
   else {
 	red3.on();
   }
+
+  //// loop
 
   //test io 
   for (int i = 0; i < 10; i++) {
