@@ -23,7 +23,7 @@ bool checkNiederTarif() {
 //  int second = currentTime_tm->tm_sec;        // Second
   int weekday = currentTime_tm->tm_wday;      // days since sunday
 
-  std::cout << currenTimeStr << std::endl;
+  std::cout << currentTimeStr << std::endl;
 
   if (weekday == 0 || weekday == 6) {
 	return true;
