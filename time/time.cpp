@@ -1,5 +1,6 @@
 #include <chrono>
 #include <iostream>
+#include <strstream>
 
 int hour;
 auto now = std::chrono::system_clock::now();
