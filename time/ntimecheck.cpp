@@ -9,7 +9,7 @@ bool checkNiederTarif() {
   // Convert the system time to a time_point object
   std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
 
-  std::string currenTimeStr = std::ctime(&currentTime_t);
+  std::string currentTimeStr = std::ctime(&currentTime_t);
 
   // Convert the time_point to a struct tm
   std::tm* currentTime_tm = std::localtime(&currentTime_t);
