@@ -38,7 +38,7 @@ bool checkNiederTarif() {
 int main() {
 
   
-  if (checkNiederTarif) {
+  if (checkNiederTarif()) {
 	std::cout << "Es ist nieder Tarif" << std::endl;
   }
   else {
