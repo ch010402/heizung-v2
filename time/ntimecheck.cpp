@@ -38,6 +38,7 @@ int checkNiederTarif() {
 
 int main() {
 
+  std::cout << currenTimeStr << std::endl;
   if (checkNiederTarif) {
 	std::cout << "Es ist nieder Tarif" << std::endl;
   }
