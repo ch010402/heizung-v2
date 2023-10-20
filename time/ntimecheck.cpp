@@ -33,7 +33,7 @@ int checkNiederTarif() {
   {
 	return false;
   }
-  return 1;
+  return 0;
 }
 
 int main() {
