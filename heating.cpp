@@ -252,6 +252,7 @@ int main(int argc, char** argv) {
   io red3("HighTarif", 24, led), green1("LowTarif", 19, led);
   //// loop
 
+  //test HT or LT
   if (checkLowTarif()) {
 	green1.on();
   }
@@ -273,7 +274,7 @@ int main(int argc, char** argv) {
 	red.close();
   }
 
-  green1.off();
+ // green1.off();
   red3.off();
 
   //// close 
