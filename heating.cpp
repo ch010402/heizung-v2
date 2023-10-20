@@ -153,7 +153,7 @@ private:
 	line = gpiod_chip_get_line(chip, gpioPin_);
 	// request a line as an output and default it to 0/false 
 	gpiod_line_request_output(line, "output", 0);
-	openLineCounter++;
+	//openLineCounter++;
 	initilized_ = true;
   }
 };
