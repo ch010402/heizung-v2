@@ -275,9 +275,6 @@ int main(int argc, char** argv) {
 	red.close();
   }
 
- // green1.off();
-  red3.off();
-
   //// close 
   blue.destroy();
   red.destroy();
