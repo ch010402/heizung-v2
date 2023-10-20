@@ -34,7 +34,9 @@
 /*global  variables*/
 
 // counter for how many lines to the gpio chip are open 
-int openLineCounter = 0;
+//int openLineCounter = 0;
+
+int io::instanceCount = 0;
 
 /*enumerations*/
 
