@@ -2,7 +2,7 @@
 #include <chrono>
 #include <ctime>
 
-int checkNiederTarif() {
+bool checkNiederTarif() {
   // Get the current system time using the system clock
   auto currentTime = std::chrono::system_clock::now();
 
@@ -35,7 +35,7 @@ int checkNiederTarif() {
   {
 	return false;
   }
-  return 0;
+  return false;
 }
 
 int main() {
