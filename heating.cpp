@@ -99,6 +99,7 @@ public:
   }
   // io.destroy() function closes the line to the io and if it is the last line closes the connection to the chip
   void destroy() {
+	off();
 	// close the line to the IO
 	gpiod_line_release(line);
 	openLineCounter--;
@@ -263,9 +264,9 @@ int main(int argc, char** argv) {
   //test io 
   for (int i = 0; i < 10; i++) {
 	blue.on();
-	usleep(0.3 * 1000000);
+	usleep(0.1 * 1000000);
 	blue.off();
-	usleep(0.7 * 1000000);
+	usleep(0.3 * 1000000);
   }
 
   //test mixer
