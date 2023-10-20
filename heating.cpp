@@ -111,20 +111,7 @@ public:
 	  status_ = false;
 	}
   }
-  // io.destroy() function closes the line to the io and if it is the last line closes the connection to the chip
-  /*
-  void destroy() {
-	// switch the io off in any case it would be on.
-	off();
-	// close the line to the IO
-	gpiod_line_release(line);
-	openLineCounter--;
-	// closes the connectin to the chip if no line is open
-	if (openLineCounter == 0)
-	  gpiod_chip_close(chip);
-	initilized_ = false;
-  }
-  */
+  // retuns the number of created instances of this object
   static int getInstanceCount() {
 	return instanceCount;
   }
@@ -147,7 +134,6 @@ private:
 	line = gpiod_chip_get_line(chip, gpioPin_);
 	// request a line as an output and default it to 0/false 
 	gpiod_line_request_output(line, "output", 0);
-	//openLineCounter++;
 	initilized_ = true;
   }
 };
@@ -209,13 +195,6 @@ public:
 	  currentStep_--;
 	}
   }
-  //mixer.destroy() function closes the line to the io's and if it is the last line closes the connection to the chip
-  /*
-  void destroy() {
-	ioOpen.destroy();
-	ioClose.destroy();
-  }
-  */
 private:
   // mixer.waitOneStep waits 1/step of the full open close cycle in seconds
   void waitOneStep() {
@@ -271,9 +250,7 @@ bool checkLowTarif() {
 
 /*global  variables*/
 
-// counter for how many lines to the gpio chip are open 
-//int openLineCounter = 0;
-
+// counter for how many instances of the io object were created
 int io::instanceCount = 0;
 
 /*main*/
@@ -311,11 +288,7 @@ int main(int argc, char** argv) {
   }
 
   //// close 
-  /*
-  blue.destroy();
-  red.destroy();
-  red3.destroy();
-  green1.destroy();
-  */
+  int ioCount = io::getInstanceCount();
+  std::cout << ioCount << " instces created." << std::endl;
   return 0;
 }
