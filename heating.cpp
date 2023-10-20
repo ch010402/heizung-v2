@@ -79,7 +79,7 @@ public:
 	// close the line to the IO
 	gpiod_line_release(line);
 	// closes the connectin to the chip if no line is open
-	if (in == 0) {
+	if (instanceCount == 0) {
 	  gpiod_chip_close(chip);
 	  std::cout << "Connection to chip closed, good bye." << std::endl;
 	}
