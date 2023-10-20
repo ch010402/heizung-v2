@@ -77,7 +77,7 @@ public:
 	// closes the connectin to the chip if no line is open
 	if (instanceCount == 0) {
 	  gpiod_chip_close(chip);
-	  std::cout << "Connection to chip closed, good bye." << std::endl;
+	  std::cout << getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
 	}
 	initilized_ = false;
   }
