@@ -14,7 +14,7 @@
 
 #include <gpiod.h>  // library to access GPIOs on a device 
 #include <iostream>
-#include "io.h"
+#include "gpioOutput.h"
 
 class gpioChipCommunication {
 public:
