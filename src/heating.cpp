@@ -186,15 +186,22 @@ int main(int argc, char** argv) {
 	gpioOutputs.push_back(io);
   }
 
+  for (const gpioOutput& io : gpioOutputs) {
+	io.on();
+	usleep(0.2 * 1000000);
+  }
+  for (const gpioOutput& io : gpioOutputs) {
+	io.off();
+	usleep(0.2 * 1000000);
+  }
+
   /*
   gpioOutput blue("blue led", 22);
   mixer red("red", 23, 5, 5, 16);
   gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
   */
   //// start
-  int ioCount = gpioOutput::getInstanceCount();
-  std::cout << ioCount << " instances created." << std::endl;
-
+ 
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
 
   /*
