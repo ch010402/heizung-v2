@@ -31,7 +31,7 @@ private:
   bool initialized_;
   std::string ioName_;
   bool status_;
-  static std::shared_ptr< gpioChipCommunication> gpioChipCommunicationInstance;
+  static std::shared_ptr<gpioChipCommunication> gpioChipCommunicationInstance;
   static int instanceCount;
   struct gpiod_line* line;
 
