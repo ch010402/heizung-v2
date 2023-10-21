@@ -49,7 +49,7 @@ int gpioOutput::getInstanceCount() {
 }
 void gpioOutput::initialize() {
   if (!gpioChipCommunicationInstance) {
-	gpioChipCommunicationInstance = std::make_shared< gpioChipCommunication>();
+	gpioChipCommunicationInstance = std::make_shared<gpioChipCommunication>();
   }
   line = gpiod_chip_get_line(gpioChipCommunicationInstance->chip, gpioPin_);
   gpiod_line_request_output(line, "output", 0);
