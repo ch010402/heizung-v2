@@ -174,7 +174,7 @@ int main(int argc, char** argv) {
   signal(SIGINT, handleSigInt);
 
   //// setup
-  bool testBetrieb = false;
+  bool testBetrieb = true;
   std::vector<gpioOutput> gpioOutputs;
   std::vector<gpioOutput> testLEDs{
 	{"red1",23},
