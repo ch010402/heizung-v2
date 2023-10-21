@@ -150,11 +150,6 @@ bool checkLowTarif() {
   return false;
 }
 
-/*global  variables*/
-
-// counter for how many instances of the io object were created
-int io::instanceCount = 0;
-
 /*rest*/
 
 std::shared_ptr<gpioChipCommunication> io::gpioChipCommunicationInstance;
@@ -168,7 +163,7 @@ int main(int argc, char** argv) {
   gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
   
   //// start
-  int ioCount = io::getInstanceCount();
+  int ioCount = gpioOutput::getInstanceCount();
   std::cout << ioCount << " instances created." << std::endl;
 
   //test HT or LT
