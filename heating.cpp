@@ -45,21 +45,21 @@ enum ioType {
 
 /*classes*/
 
-// CLASS gpio
+// CLASS gpioChipCommunication
 // has no function and no variables to access 
 // is used to open the communication to the gpio interface
-class gpioChip {
+class gpioChipCommunication {
 public:
   // set the chip name as const as we use a raspberryPi we have a "gpiochip0" 
   // this is currently static, if we would like to use a different board this value neeeds to be adjusted 
   const char* chipName_ = "gpiochip0";
   // build gpiod chip
   struct gpiod_chip* chip;
-  gpioChip() {
+  gpioChipCommunication() {
 	// open the connection to the chip
 	chip = gpiod_chip_open_by_name(chipName_);
   }
-  ~gpioChip() {
+  ~gpioChipCommunication() {
 	// closes the connectin to the chip if no line is open
 	gpiod_chip_close(chip);
 	//std::cout << getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
@@ -141,7 +141,7 @@ public:
 
 private:
   
-  static std::shared_ptr<gpioChip> gpioChip;
+  static std::shared_ptr<gpioChipCommunication> gpioChipCommunication;
   // use for counting how many instances of this object where created to close connection to the chip
   static int instanceCount;
   // set the chip name as const as we use a raspberryPi we have a "gpiochip0" 
@@ -155,11 +155,11 @@ private:
   void initilaize() {
 	// open the connection to the chip
 //	chip = gpiod_chip_open_by_name(chipName_);
-	if (!gpioChip) {
-	  gpioChip = std::make_shared<gpioChip()>;
+	if (!gpioChipCommunication) {
+	  gpioChipCommunication = std::make_shared<gpioChipCommunication()>;
 	}
 	// open a GPIO line
-	line = gpiod_chip_get_line(gpioChip::chip, gpioPin_);
+	line = gpiod_chip_get_line(gpioChipCommunication::chip, gpioPin_);
 	// request a line as an output and default it to 0/false 
 	gpiod_line_request_output(line, "output", 0);
 	initilized_ = true;
