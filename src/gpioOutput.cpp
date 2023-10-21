@@ -29,17 +29,17 @@ gpioOutput::~gpioOutput() {
 }
 // functions
 void gpioOutput::on() {
-  if (!initialized_) { initilaize(); }
+  if (!initialized_) { initialize(); }
   gpiod_line_set_value(line, 1);
   status_ = true;
 }
 void gpioOutput::off() {
-  if (!initialized_) { initilaize(); }
+  if (!initialized_) { initialize(); }
   gpiod_line_set_value(line, 0);
   status_ = false;
 }
 void gpioOutput::toggle() {
-  if (!initialized_) { initilaize(); }
+  if (!initialized_) { initialize(); }
   gpiod_line_set_value(line, status_ ? 0:1);
   status_ = !status_;
 }
