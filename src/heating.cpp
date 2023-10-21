@@ -205,7 +205,7 @@ int main(int argc, char** argv) {
 	{"reserve 1", 18},
 	{"reserve 2", 27},
 
-  }
+  };
   std::vector<std::string> objectsToRemove{
 	"yellow2",
 	"green2",
