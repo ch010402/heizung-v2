@@ -174,6 +174,7 @@ int main(int argc, char** argv) {
   signal(SIGINT, handleSigInt);
 
   //// setup
+  bool test = false;
   std::vector<gpioOutput> gpioOutputs;
   std::vector<gpioOutput> testLEDs{
 	{"red1",23},
@@ -187,16 +188,36 @@ int main(int argc, char** argv) {
 	{"green3",20},
 	{"blue",22}
   };
+  std::vector<gpioOutput> productiveOuts{
+	{"Elektropumpe",26},
+	{"Elektrorelais",4},
+	{"Elektromischer auf",25},
+	{"Elektromischer zu",24},
+	{"Boilerpumpe",20},
+	{"Boilerventil", 5},
+	{"Heizmischer auf",13},
+	{"Heizmischer zu",  6},
+	{"Speicherventl",  3},
+	{"Umlaufpumpe", 21},
+	{"Ofenpumpe Stufe1", 19},
+	{"Ofenpumpe Stufe2", 16},
+	{"Ofenpumpe Stufe3", 12},
+	{"reserve 1", 18},
+	{"reserve 2", 27},
+
+  }
   std::vector<std::string> objectsToRemove{
 	"yellow2",
 	"green2",
-	"red2"
+	"red2",
+	"reserve 1",
+	"reserve 2"
   };
 
-  //build all leds 
-  for (const gpioOutput& io : testLEDs) {
-	gpioOutputs.push_back(io);
-  }
+  //build all objects 
+  for (const gpioOutput& io : test ? productiveOuts:testLEDs) {
+    gpioOutputs.push_back(io);
+  } 
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
   
   for (gpioOutput& io : gpioOutputs) {
