@@ -24,8 +24,8 @@ gpioOutput::gpioOutput(std::string ioName, int gpioPin) :
 gpioOutput::~gpioOutput() {
   instanceCount--;
   // Ensure the IO is turned off before releasing the line
-  off();
   if (line) {
+	gpiod_line_set_value(line, 0);
 	gpiod_line_release(line);
   }
   initialized_ = false;
