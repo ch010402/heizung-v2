@@ -9,6 +9,7 @@
 */
 
 #include "gpioChipCommunication.h"
+#include "gpioOutput.h"
 
 // Constructor 
 
@@ -24,5 +25,5 @@ gpioChipCommunication::~gpioChipCommunication() {
   if (chip) {
 	gpiod_chip_close(chip);
   }
-  std::cout << io::getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
+  std::cout << gpioOutput::getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
 }
