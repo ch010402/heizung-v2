@@ -186,15 +186,14 @@ int main(int argc, char** argv) {
 	gpioOutputs.push_back(io);
   }
 
-  for (const gpioOutput& io : gpioOutputs) {
-	gpioOutputs->on();
+  for (gpioOutput& io : gpioOutputs) {
+	io.on();
 	usleep(0.2 * 1000000);
   }
-  for (const auto& gpioOutput : gpioOutputs) {
-	gpioOutputs->off();
+  for (gpioOutput& io : gpioOutputs) {
+	io.off();
 	usleep(0.2 * 1000000);
   }
-
   /*
   gpioOutput blue("blue led", 22);
   mixer red("red", 23, 5, 5, 16);
