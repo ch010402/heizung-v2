@@ -31,11 +31,11 @@
 #include <ctime>    // to manipulate the t_time 
 #include <memory>   // 
 #include <csignal>  //
+#include <vector>	//
 #include "gpioOutput.h"
 
 
 /*misc*/
-
 
 /*enumerations*/
 
@@ -168,14 +168,34 @@ int main(int argc, char** argv) {
   signal(SIGINT, handleSigInt);
 
   //// setup
+  std::vector<gpioOutput> gpioOutputs;
+  std::vector<gpioOutput> testLEDs{
+	{"red1",23},
+	{"red2",5},
+	{"red3",24},
+	{"yellow1",25},
+	{"yellow2",12},
+	{"yellow3",16},
+	{"green1",19},
+	{"green2",26},
+	{"green3",20},
+	{"blue",22}
+  };
+
+  for (const gpioOutput& io : testLEDs) {
+	gpioOutputs.push_back(io);
+  }
+
+  /*
   gpioOutput blue("blue led", 22);
   mixer red("red", 23, 5, 5, 16);
   gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
-  
+  */
   //// start
   int ioCount = gpioOutput::getInstanceCount();
   std::cout << ioCount << " instances created." << std::endl;
 
+  /*
   //test HT or LT
   if (checkLowTarif()) {
 	green1.on();
@@ -199,7 +219,7 @@ int main(int argc, char** argv) {
 	red.open();
 	red.close();
   }
-
+  */
   //// close 
   return 0;
 }
