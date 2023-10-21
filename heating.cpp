@@ -155,11 +155,11 @@ private:
   void initilaize() {
 	// open the connection to the chip
 //	chip = gpiod_chip_open_by_name(chipName_);
-	if (!gpioChipCommunication()) {
-	  gpioChipCommunicationInstance = std::make_shared<gpioChipCommunication()>;
+	if (!gpioChipCommunicationInstance) {
+	  gpioChipCommunicationInstance = std::make_shared<gpioChipCommunication>();
 	}
 	// open a GPIO line
-	line = gpiod_chip_get_line(gpioChipCommunication::chip, gpioPin_);
+	line = gpiod_chip_get_line(gpioChipCommunicationInstance->chip, gpioPin_);
 	// request a line as an output and default it to 0/false 
 	gpiod_line_request_output(line, "output", 0);
 	initilized_ = true;
