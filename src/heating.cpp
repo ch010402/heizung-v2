@@ -251,6 +251,14 @@ int main(int argc, char** argv) {
 	io.off();
 	usleep(0.2 * 1000000);
   }
+  for (gpioOutput& io : gpioOutputs) {
+	if (io.getName() == "blue") {
+	  io.on();
+	usleep(2 * 1000000);
+	io.off();
+	}
+  }
+
   /*
   gpioOutput blue("blue led", 22);
   mixer red("red", 23, 5, 5, 16);
