@@ -256,6 +256,7 @@ int main(int argc, char** argv) {
 	  io.on();
 	usleep(2 * 1000000);
 	io.off();
+	std::cout << "blue is on" << std::endl;
 	}
   }
 
