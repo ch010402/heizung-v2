@@ -25,7 +25,7 @@
 */					   
 
 #include <iostream> // used for interacting with the console (cout)
-#include "gpioChipCommunication.h"
+//#include "gpioChipCommunication.h"
 #include "gpioOutput.h"
 #include <unistd.h> // used for usleep //myabe replace by chrono
 #include <string>   // used for strings
