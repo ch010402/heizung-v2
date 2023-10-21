@@ -162,7 +162,11 @@ void handleSigTerm(int signum) {
 
 int main(int argc, char** argv) {
   //// setup
-  signal(SIGTERM, handleSigTerm);
+  struct sigaction action;
+  action.sa_handler = handleSigTerm;
+  sigemptyset(&action.sa_mask);
+  action.sa_flags = 0;
+  sigaction(SIGTERM, &action, nullptr);
 
   gpioOutput blue("blue led", 22);
   mixer red("red", 23, 5, 5, 16);
