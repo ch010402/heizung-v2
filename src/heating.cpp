@@ -30,14 +30,13 @@
 #include <chrono>   // used to access the system time 
 #include <ctime>    // to manipulate the t_time 
 #include <memory>   // 
+#include <csignal>  //
 #include "gpioOutput.h"
 
 
 /*enumerations*/
 
 /*classes*/
-
-
 
 // CLASS  mixer (string mxName, int gpioPin1, int gpioPin2, int openCloseDuration, int steps)
 // has functions open(), close(), destroy()
@@ -149,10 +148,21 @@ bool checkLowTarif() {
   return false;
 }
 
+// FUNCTION handleSigTerm()
+//
+void handleSigTerm(int signum) {
+  // Handle the SIGTERM signal here
+  // Call the destructor of gpioChipCommunication or any other cleanup needed
+  std::cout << "Ctrl+C program abort" << std::endl;
+  // Exit the program gracefully (if desired)
+  exit(0);
+}
+
 /*main*/
 
 int main(int argc, char** argv) {
   //// setup
+  signal(SIGTERM, handleSigTerm);
   gpioOutput blue("blue led", 22);
   mixer red("red", 23, 5, 5, 16);
   gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
