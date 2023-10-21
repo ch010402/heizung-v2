@@ -185,8 +185,8 @@ int main(int argc, char** argv) {
 	{"yellow3",16},
 	{"green1",19},
 	{"green2",26},
+	{"blue",22},
 	{"green3",20},
-	{"blue",22}
   };
   std::vector<gpioOutput> productiveOuts{
 	{"Elektropumpe",26},
