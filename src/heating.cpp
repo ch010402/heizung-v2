@@ -158,8 +158,6 @@ void handleSigInt(int signum) {
   // Call the destructor of gpioChipCommunication or any other cleanup needed
   std::cout << " Ctrl+C program abort" << std::endl;
   // Exit the program gracefully (if desired)
-  gpioOutput.clear();
-
   exit(0);
 }
 
