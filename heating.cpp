@@ -62,7 +62,7 @@ public:
   ~gpioChip() {
 	// closes the connectin to the chip if no line is open
 	gpiod_chip_close(chip);
-	std::cout << getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
+	//std::cout << getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
   }
 };
 
@@ -278,6 +278,10 @@ bool checkLowTarif() {
 
 // counter for how many instances of the io object were created
 int io::instanceCount = 0;
+
+/*rest*/
+
+std::shared_ptr<gpioChip> io::gpioChip;
 
 /*main*/
 
