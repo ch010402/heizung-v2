@@ -283,7 +283,7 @@ int io::instanceCount = 0;
 
 /*rest*/
 
-std::shared_ptr<gpioChip> io::gpioChip;
+std::shared_ptr<gpioChipCommunication> io::gpioChipCommunicationInstance;
 
 /*main*/
 
