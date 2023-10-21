@@ -28,6 +28,7 @@ public:
 
   static int getInstanceCount();
   std::string getName() const;
+  int getID() const;
 private:
   int gpioPin_;
   bool initialized_;
