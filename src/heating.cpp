@@ -256,7 +256,7 @@ int main(int argc, char** argv) {
   // single led output
   for (gpioOutput& io : gpioOutputs) {
 	if (io.getName() == "blue") {
-	  std::cout << io.getName() <<" is on @ pin: " << io.getPin() << std::endl;
+	  std::cout << io.getName() <<" is on @ pin: " << io.getPin() << " and is: "<< io.getInitialized() << std::endl;
 	  io.on();
 	  usleep(2 * 1000000);
 	  io.off();

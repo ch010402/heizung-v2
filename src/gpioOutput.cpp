@@ -55,6 +55,9 @@ std::string gpioOutput::getName() const {
 int gpioOutput::getPin() const {
   return gpioPin_;
 }
+bool gpioOutput::getInitialized() const {
+  return initialized_;
+}
 void gpioOutput::initialize() {
   if (!gpioChipCommunicationInstance) {
 	gpioChipCommunicationInstance = std::make_shared<gpioChipCommunication>();
