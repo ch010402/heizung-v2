@@ -209,9 +209,9 @@ int main(int argc, char** argv) {
   std::vector<std::string> objectsToRemove{
 	"yellow2",
 	"green2",
-	"red2",
-	"reserve 1",
-	"reserve 2"
+	"red2"//,
+	//"reserve 1",
+	//"reserve 2"
   };
 
   //build all objects 
