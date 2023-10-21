@@ -37,6 +37,7 @@
 #include <memory>   // 
 #include <csignal>  //
 #include <vector>	//
+#include <algorithm>//
 #include "gpioOutput.h"
 
 
