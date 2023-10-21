@@ -209,9 +209,9 @@ int main(int argc, char** argv) {
   std::vector<std::string> objectsToRemove{
 	"yellow2",
 	"green2",
-	"red2"//,
-	//"reserve 1",
-	//"reserve 2"
+	"red2",
+	"reserve 1",
+	"reserve 2"
   };
 
   //build all objects 
@@ -236,6 +236,10 @@ int main(int argc, char** argv) {
 	  [&name](const gpioOutput& io) { return io.getName() == name; }), 
 	  gpioOutputs.end()
 	);
+  }
+  // Iterate through the remaining elements in the vector and print their names
+  for (const gpioOutput& io : gpioOutputs) {
+	std::cout << "Remaining element: " << io.getName() << std::endl;
   }
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
 
