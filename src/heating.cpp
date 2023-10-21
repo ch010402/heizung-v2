@@ -206,13 +206,6 @@ int main(int argc, char** argv) {
 	{"reserve 2", 27},
 
   };
-  std::vector<std::string> objectsToRemove{
-	"yellow2",
-	"green2",
-	"red2",
-	"reserve 1",
-	"reserve 2"
-  };
 
   //build all objects 
   for (const gpioOutput& io : testBetrieb ? testLEDs:productiveOuts) {
@@ -228,8 +221,21 @@ int main(int argc, char** argv) {
 	io.off();
 	usleep(0.1 * 1000000);
   }
-/*
+
   //remove all objectsToRemove
+  std::vector<std::string> objectsToRemove{
+	"yellow2",
+	"green2",
+	"red2",
+	"reserve 1",
+	"reserve 2"
+  };
+  std::vector<gpioOutput> tempVector;
+  for (const gpioOutput& io : gpioOutputs) {
+	if (std::find(objectsToRemove.begin(), objectsToRemove.end(), io.getName()) == objectsToRemove.end()) {
+	  tempVector.push_back(io);
+	}
+  }
   for (const std::string& name : objectsToRemove) {
 	gpioOutputs.erase(
 	  std::remove_if(gpioOutputs.begin(), gpioOutputs.end(), 
@@ -237,8 +243,10 @@ int main(int argc, char** argv) {
 	  gpioOutputs.end()
 	);
   }
+  gpioOutputs = tempVector;
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
-*/
+
+
   for (gpioOutput& io : gpioOutputs) {
 	io.on();
 	usleep(0.2 * 1000000);
@@ -251,6 +259,7 @@ int main(int argc, char** argv) {
 	io.off();
 	usleep(0.2 * 1000000);
   }
+  // single led output
   for (gpioOutput& io : gpioOutputs) {
 	if (io.getName() == "blue") {
 	  std::cout << io.getName() <<" is on @ pin: " << io.getPin() << std::endl;
@@ -259,11 +268,6 @@ int main(int argc, char** argv) {
 	  io.off();
 	}
   }
-
-  gpioOutput blue("blue led", 22);
-  blue.on();
-  usleep(2 * 1000000);
-  blue.off();
   /*
   mixer red("red", 23, 5, 5, 16);
   gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
