@@ -52,7 +52,7 @@ int gpioOutput::getInstanceCount() {
 std::string gpioOutput::getName() const {
 	return ioName_;
 }
-int gpioOutput::getID() const {
+int gpioOutput::getPin() const {
   return gpioPin_;
 }
 void gpioOutput::initialize() {

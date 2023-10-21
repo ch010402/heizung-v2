@@ -253,7 +253,7 @@ int main(int argc, char** argv) {
   }
   for (gpioOutput& io : gpioOutputs) {
 	if (io.getName() == "blue") {
-	  std::cout << io.getName() <<" is on" << std::endl;
+	  std::cout << io.getName() <<" is on @ pin: " << io.getPin() << std::endl;
 	  io.on();
 	  usleep(2 * 1000000);
 	  io.off();
