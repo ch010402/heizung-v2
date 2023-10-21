@@ -230,20 +230,14 @@ int main(int argc, char** argv) {
 	"reserve 1",
 	"reserve 2"
   };
-  std::vector<gpioOutput> tempVector;
-  for (const gpioOutput& io : gpioOutputs) {
-	if (std::find(objectsToRemove.begin(), objectsToRemove.end(), io.getName()) == objectsToRemove.end()) {
-	  tempVector.push_back(io);
+  for (auto it = gpioOutputs.begin(); it != gpioOutputs.end();) {
+	if (std::find(objectsToRemove.begin(), objectsToRemove.end(), it->getName()) != objectsToRemove.end()) {
+	  it = gpioOutputs.erase(it);  // Remove the element
+	}
+	else {
+	  ++it;  // Move to the next element
 	}
   }
-  for (const std::string& name : objectsToRemove) {
-	gpioOutputs.erase(
-	  std::remove_if(gpioOutputs.begin(), gpioOutputs.end(), 
-	  [&name](const gpioOutput& io) { return io.getName() == name; }), 
-	  gpioOutputs.end()
-	);
-  }
-  gpioOutputs = tempVector;
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
 
 
