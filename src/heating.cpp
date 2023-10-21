@@ -25,13 +25,12 @@
 */					   
 
 #include <iostream> // used for interacting with the console (cout)
-//#include "gpioChipCommunication.h"
-#include "gpioOutput.h"
 #include <unistd.h> // used for usleep //myabe replace by chrono
 #include <string>   // used for strings
 #include <chrono>   // used to access the system time 
 #include <ctime>    // to manipulate the t_time 
 #include <memory>   // 
+#include "gpioOutput.h"
 
 
 /*enumerations*/
