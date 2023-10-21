@@ -163,6 +163,7 @@ void handleSigTerm(int signum) {
 int main(int argc, char** argv) {
   //// setup
   signal(SIGTERM, handleSigTerm);
+
   gpioOutput blue("blue led", 22);
   mixer red("red", 23, 5, 5, 16);
   gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
