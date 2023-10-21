@@ -30,7 +30,7 @@ public:
 private:
   int gpioPin_;
   bool initialized_;
-  std::string ioName;
+  std::string ioName_;
   bool status_;
   static std::shared_ptr< gpioChipCommunication> gpioChipCommunicationInstance;
   static int instanceCount;
