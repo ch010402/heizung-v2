@@ -25,7 +25,8 @@
 */					   
 
 #include <iostream> // used for interacting with the console (cout)
-#include <gpiod.h>  // library to access GPIOs on a device 
+#include "gpioChipCommunication.h"
+#include "gpioOutput.h"
 #include <unistd.h> // used for usleep //myabe replace by chrono
 #include <string>   // used for strings
 #include <chrono>   // used to access the system time 
@@ -35,128 +36,9 @@
 
 /*enumerations*/
 
-// ioType enumerate possible values {pump, valve, breaker, led}
-enum ioType {
-  pump,
-  valve,
-  switcher,
-  led
-};
-
 /*classes*/
 
-// Forward declaration of io class
-class io;
 
-// CLASS gpioChipCommunication
-// has no function and no variables to access 
-// is used to open the communication to the gpio interface
-class gpioChipCommunication {
-public:
-  // set the chip name as const as we use a raspberryPi we have a "gpiochip0" 
-  // this is currently static, if we would like to use a different board this value neeeds to be adjusted 
-  const char* chipName_ = "gpiochip0";
-  // build gpiod chip
-  struct gpiod_chip* chip;
-  gpioChipCommunication() {
-	// open the connection to the chip
-	chip = gpiod_chip_open_by_name(chipName_);
-  }
-  ~gpioChipCommunication() {
-	// closes the connectin to the chip if no line is open
-	gpiod_chip_close(chip);
-	std::cout << io::getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
-  }
-};
-
-
-// CLASS io (string ioName, int gpioPin, enum ioType)
-// has functions on(), off(), toggle(), destroy()
-// has accessable variable state_ (true/false) ioType 
-class io {
-private:
-  // int ioPin_ the pin to controll the I/O
-  int gpioPin_;
-  // bool initilaized_ tells if it is initialized or not
-  bool initilized_ = false;
-public:
-  // string ioName_ keeps the name of the IO
-  std::string ioName_;
-  // bool status_ default to false meaning off not set, reports the status as boolean 
-  bool status_ = false;
-  // enum ioType enumerate possible values {pump, valve, switch, mixer}
-  ioType type_;
-
-  //// default constructor 
-  io(std::string ioName, int gpioPin, ioType type) : gpioPin_(gpioPin), ioName_(ioName), type_(type) {
-	instanceCount++;
-  }
-
-  //// default destructor 
-  ~io() {
-	 // decrease number of instances
-	instanceCount--;
-	// switch the io off in any case it would be on.
-	off();
-	// close the line to the IO
-	gpiod_line_release(line);
-	initilized_ = false;
-  }
-
-  //// functions
-
-  // io.on() function switches the output on
-  void on() {
-	if (!initilized_)
-	  initilaize();
-	gpiod_line_set_value(line, 1);
-	status_ = true;
-  }
-  // io.off() function switches the output off
-  void off() {
-	if (!initilized_)
-	  initilaize();
-	gpiod_line_set_value(line, 0);
-	status_ = false;
-  }
-  // io.toggle() function toggles the output on or off 
-  void toggle() {
-	if (!initilized_)
-	  initilaize();
-	if (status_) {
-	  gpiod_line_set_value(line, 1);
-	  status_ = true;
-	}
-	else {
-	  gpiod_line_set_value(line, 0);
-	  status_ = false;
-	}
-  }
-  // retuns the number of created instances of this object
-  static int getInstanceCount() {
-	return instanceCount;
-  }
-
-private:
-  
-  static std::shared_ptr<gpioChipCommunication> gpioChipCommunicationInstance;
-  // use for counting how many instances of this object where created to close connection to the chip
-  static int instanceCount;
-  // build gpiod lines
-  struct gpiod_line* line;
-    // io.initialize() builds up the connection to the chip and creates a line to the io
-  void initilaize() {
-	// open the connection to the chip
-	if (!gpioChipCommunicationInstance) {
-	  gpioChipCommunicationInstance = std::make_shared<gpioChipCommunication>();
-	}
-	// open a GPIO line
-	line = gpiod_chip_get_line(gpioChipCommunicationInstance->chip, gpioPin_);
-	// request a line as an output and default it to 0/false 
-	gpiod_line_request_output(line, "output", 0);
-	initilized_ = true;
-  }
-};
 
 // CLASS  mixer (string mxName, int gpioPin1, int gpioPin2, int openCloseDuration, int steps)
 // has functions open(), close(), destroy()
@@ -170,7 +52,7 @@ private:
   // int currentStep_ stores the current step the mixer is at
   int currentStep_ = 0;
   // io ioOpen ioClose as a mixer needs two output one to open and one to close 
-  io ioOpen, ioClose;
+  gpioOutput ioOpen, ioClose;
   // bool initilaized_ true if the postion of the mixer is known, default to false 
   bool initilized_ = false;
 public:
@@ -181,8 +63,8 @@ public:
   mixer(std::string mxName, int gpioPin1, int gpioPin2, int openCloseDuration, int steps) :
 	openCloseDuration_(openCloseDuration),
 	steps_(steps),
-	ioOpen(mxName + ".open", gpioPin1, switcher),
-	ioClose(mxName + ".close", gpioPin2, switcher),
+	ioOpen(mxName + ".open", gpioPin1),
+	ioClose(mxName + ".close", gpioPin2),
 	mxName_(mxName) {
 	initialize();
   }
@@ -281,9 +163,9 @@ std::shared_ptr<gpioChipCommunication> io::gpioChipCommunicationInstance;
 
 int main(int argc, char** argv) {
   //// setup
-  io blue("blue led", 22, led);
+  gpioOutput blue("blue led", 22);
   mixer red("red", 23, 5, 5, 16);
-  io red3("HighTarif", 24, led), green1("LowTarif", 19, led);
+  gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
   
   //// start
   int ioCount = io::getInstanceCount();
