@@ -22,6 +22,11 @@
 *                          |  reserve 2	           27
 * 
 * (c) Christoph Latzer 2023-Oct-17
+* 
+* g++ -c ../src/gpioChipCommunication.cpp -o gpioChipCommunication.o -lgpiod -I../include
+* g++ -c ../src/gpioOutput.cpp -o gpioOutput.o -lgpiod -I../include
+* g++ gpioChipCommunication.o gpioOutput.o ../src/heating.cpp -o heating -lgpiod -I../include
+* 
 */					   
 
 #include <iostream> // used for interacting with the console (cout)
