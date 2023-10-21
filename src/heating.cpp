@@ -187,11 +187,11 @@ int main(int argc, char** argv) {
   }
 
   for (const gpioOutput& io : gpioOutputs) {
-	io->on();
+	gpioOutput->on();
 	usleep(0.2 * 1000000);
   }
   for (const gpioOutput& io : gpioOutputs) {
-	io.off();
+	gpioOutput->off();
 	usleep(0.2 * 1000000);
   }
 
