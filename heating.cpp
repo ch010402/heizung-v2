@@ -32,14 +32,6 @@
 #include <ctime>    // to manipulate the t_time 
 #include <memory>   // 
 
-/*global  variables*/
-
-// counter for how many instances of the io object were created
-int io::instanceCount = 0;
-
-/*rest*/
-
-std::shared_ptr<gpioChipCommunication> io::gpioChipCommunicationInstance;
 
 /*enumerations*/
 
@@ -70,7 +62,7 @@ public:
   ~gpioChipCommunication() {
 	// closes the connectin to the chip if no line is open
 	gpiod_chip_close(chip);
-	std::cout << getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
+	std::cout << io::getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
   }
 };
 
@@ -105,11 +97,6 @@ public:
 	off();
 	// close the line to the IO
 	gpiod_line_release(line);
-/*	// closes the connectin to the chip if no line is open
-	if (instanceCount == 0) {
-	  gpiod_chip_close(chip);
-	  std::cout << getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
-	} */
 	initilized_ = false;
   }
 
@@ -152,17 +139,11 @@ private:
   static std::shared_ptr<gpioChipCommunication> gpioChipCommunicationInstance;
   // use for counting how many instances of this object where created to close connection to the chip
   static int instanceCount;
-  // set the chip name as const as we use a raspberryPi we have a "gpiochip0" 
-  // this is currently static, if we would like to use a different board this value neeeds to be adjusted 
-//  const char* chipName_ = "gpiochip0";
-  // build gpiod chip
-//  struct gpiod_chip* chip;
   // build gpiod lines
   struct gpiod_line* line;
     // io.initialize() builds up the connection to the chip and creates a line to the io
   void initilaize() {
 	// open the connection to the chip
-//	chip = gpiod_chip_open_by_name(chipName_);
 	if (!gpioChipCommunicationInstance) {
 	  gpioChipCommunicationInstance = std::make_shared<gpioChipCommunication>();
 	}
@@ -284,6 +265,14 @@ bool checkLowTarif() {
   return false;
 }
 
+/*global  variables*/
+
+// counter for how many instances of the io object were created
+int io::instanceCount = 0;
+
+/*rest*/
+
+std::shared_ptr<gpioChipCommunication> io::gpioChipCommunicationInstance;
 
 /*main*/
 
