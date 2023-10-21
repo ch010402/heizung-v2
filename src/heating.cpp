@@ -224,9 +224,9 @@ int main(int argc, char** argv) {
 
   //remove all objectsToRemove
   std::vector<std::string> objectsToRemove{
+	"red2",
 	"yellow2",
 	"green2",
-	"red2",
 	"reserve 1",
 	"reserve 2"
   };
