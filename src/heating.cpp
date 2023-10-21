@@ -34,6 +34,9 @@
 #include "gpioOutput.h"
 
 
+/*misc*/
+
+
 /*enumerations*/
 
 /*classes*/
@@ -153,8 +156,10 @@ bool checkLowTarif() {
 void handleSigInt(int signum) {
   // Handle the SIGINT signal here
   // Call the destructor of gpioChipCommunication or any other cleanup needed
-  std::cout << "Ctrl+C program abort" << std::endl;
+  std::cout << " Ctrl+C program abort" << std::endl;
   // Exit the program gracefully (if desired)
+  gpioOutput.clear();
+
   exit(0);
 }
 
@@ -165,7 +170,7 @@ int main(int argc, char** argv) {
   signal(SIGINT, handleSigInt);
 
   //// setup
-    gpioOutput blue("blue led", 22);
+  gpioOutput blue("blue led", 22);
   mixer red("red", 23, 5, 5, 16);
   gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
   
