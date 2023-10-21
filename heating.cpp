@@ -140,6 +140,8 @@ public:
   }
 
 private:
+  
+  static std::shared_ptr<gpioChip> gpioChip;
   // use for counting how many instances of this object where created to close connection to the chip
   static int instanceCount;
   // set the chip name as const as we use a raspberryPi we have a "gpiochip0" 
@@ -157,7 +159,7 @@ private:
 	  gpioChip = std::make_shared<gpioChip()>;
 	}
 	// open a GPIO line
-	line = gpiod_chip_get_line(gpioChip.chip, gpioPin_);
+	line = gpiod_chip_get_line(gpioChip::chip, gpioPin_);
 	// request a line as an output and default it to 0/false 
 	gpiod_line_request_output(line, "output", 0);
 	initilized_ = true;
