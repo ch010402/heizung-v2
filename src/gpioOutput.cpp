@@ -49,8 +49,7 @@ void gpioOutput::toggle() {
 int gpioOutput::getInstanceCount() {
   return instanceCount;
 }
-std::string gpioOutput::getName()
-{
+std::string gpioOutput::getName() const {
 	return ioName_;
 }
 void gpioOutput::initialize() {
