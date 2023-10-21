@@ -15,6 +15,7 @@
 #include <string>
 #include <gpiod.h>
 #include <memory>
+#include "gpioChipCommunication.h"
 
 class gpioOutput {
 public:
