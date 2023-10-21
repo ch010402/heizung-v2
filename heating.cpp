@@ -32,6 +32,14 @@
 #include <ctime>    // to manipulate the t_time 
 #include <memory>   // 
 
+/*global  variables*/
+
+// counter for how many instances of the io object were created
+int io::instanceCount = 0;
+
+/*rest*/
+
+std::shared_ptr<gpioChipCommunication> io::gpioChipCommunicationInstance;
 
 /*enumerations*/
 
@@ -62,7 +70,7 @@ public:
   ~gpioChipCommunication() {
 	// closes the connectin to the chip if no line is open
 	gpiod_chip_close(chip);
-	//std::cout << getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
+	std::cout << getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
   }
 };
 
@@ -276,14 +284,6 @@ bool checkLowTarif() {
   return false;
 }
 
-/*global  variables*/
-
-// counter for how many instances of the io object were created
-int io::instanceCount = 0;
-
-/*rest*/
-
-std::shared_ptr<gpioChipCommunication> io::gpioChipCommunicationInstance;
 
 /*main*/
 
