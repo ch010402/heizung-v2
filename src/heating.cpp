@@ -195,7 +195,7 @@ int main(int argc, char** argv) {
   int ioCount = gpioOutput::getInstanceCount();
   std::cout << ioCount << " instances created." << std::endl;
 
-  std::cout << gpioOutputs.size << std::endl;
+  std::cout << gpioOutputs.size() << std::endl;
 
   /*
   //test HT or LT
