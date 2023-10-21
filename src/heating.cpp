@@ -237,15 +237,15 @@ int main(int argc, char** argv) {
 	  gpioOutputs.end()
 	);
   }
-  // Iterate through the remaining elements in the vector and print their names
-  for (const gpioOutput& io : gpioOutputs) {
-	std::cout << "Remaining element: " << io.getName() << std::endl;
-  }
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
 
   for (gpioOutput& io : gpioOutputs) {
 	io.on();
 	usleep(0.2 * 1000000);
+  }
+  // Iterate through the remaining elements in the vector and print their names
+  for (const gpioOutput& io : gpioOutputs) {
+	std::cout << "Remaining element: " << io.getName() << std::endl;
   }
   for (gpioOutput& io : gpioOutputs) {
 	io.off();
