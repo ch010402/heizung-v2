@@ -9,6 +9,7 @@
 */
 
 #include "gpioOutput.h"
+#include "gpioChipCommunication.h"
 
 int gpioOutput::instanceCount = 0;
 

@@ -15,8 +15,6 @@
 #include <gpiod.h>  // library to access GPIOs on a device 
 #include <iostream>
 
-class gpioOutput; // Forward declaration of gpioOutput
-
 class gpioChipCommunication {
 public:
   gpioChipCommunication();
