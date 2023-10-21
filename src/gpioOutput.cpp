@@ -14,7 +14,7 @@ int gpioOutput::instanceCount = 0;
 
 // Constructor 
 gpioOutput::gpioOutput(std::string ioName, int gpioPin) :
-  gpioPin_(gpioPin), initilaized_(false), ioName_(ioName), status_(false), line(nullptr) {
+  gpioPin_(gpioPin), initialized_(false), ioName_(ioName), status_(false), line(nullptr) {
   instanceCount++;
 }
 // Destructor
