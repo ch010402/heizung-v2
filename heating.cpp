@@ -30,6 +30,7 @@
 #include <string>   // used for strings
 #include <chrono>   // used to access the system time 
 #include <ctime>    // to manipulate the t_time 
+#include <memory>   // 
 
 
 /*enumerations*/
@@ -43,6 +44,28 @@ enum ioType {
 };
 
 /*classes*/
+
+// CLASS gpio
+// has no function and no variables to access 
+// is used to open the communication to the gpio interface
+class gpioChip {
+public:
+  // set the chip name as const as we use a raspberryPi we have a "gpiochip0" 
+  // this is currently static, if we would like to use a different board this value neeeds to be adjusted 
+  const char* chipName_ = "gpiochip0";
+  // build gpiod chip
+  struct gpiod_chip* chip;
+  gpioChip() {
+	// open the connection to the chip
+	chip = gpiod_chip_open_by_name(chipName_);
+  }
+  ~gpioChip() {
+	// closes the connectin to the chip if no line is open
+	gpiod_chip_close(chip);
+	std::cout << getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
+  }
+};
+
 
 // CLASS io (string ioName, int gpioPin, enum ioType)
 // has functions on(), off(), toggle(), destroy()
@@ -74,11 +97,11 @@ public:
 	off();
 	// close the line to the IO
 	gpiod_line_release(line);
-	// closes the connectin to the chip if no line is open
+/*	// closes the connectin to the chip if no line is open
 	if (instanceCount == 0) {
 	  gpiod_chip_close(chip);
 	  std::cout << getInstanceCount() << " lines open, connection to chip closed, good bye." << std::endl;
-	}
+	} */
 	initilized_ = false;
   }
 
@@ -121,17 +144,20 @@ private:
   static int instanceCount;
   // set the chip name as const as we use a raspberryPi we have a "gpiochip0" 
   // this is currently static, if we would like to use a different board this value neeeds to be adjusted 
-  const char* chipName_ = "gpiochip0";
+//  const char* chipName_ = "gpiochip0";
   // build gpiod chip
-  struct gpiod_chip* chip;
+//  struct gpiod_chip* chip;
   // build gpiod lines
   struct gpiod_line* line;
     // io.initialize() builds up the connection to the chip and creates a line to the io
   void initilaize() {
 	// open the connection to the chip
-	chip = gpiod_chip_open_by_name(chipName_);
+//	chip = gpiod_chip_open_by_name(chipName_);
+	if (!gpioChip) {
+	  gpioChip = std::make_shared<gpioChip()>;
+	}
 	// open a GPIO line
-	line = gpiod_chip_get_line(chip, gpioPin_);
+	line = gpiod_chip_get_line(gpioChip.chip, gpioPin_);
 	// request a line as an output and default it to 0/false 
 	gpiod_line_request_output(line, "output", 0);
 	initilized_ = true;
