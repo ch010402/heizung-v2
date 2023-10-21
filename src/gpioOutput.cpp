@@ -10,6 +10,9 @@
 
 #include "gpioOutput.h"
 
+// Define the static member
+std::shared_ptr<gpioChipCommunication> gpioOutput::gpioChipCommunicationInstance;
+
 int gpioOutput::instanceCount = 0;
 
 // Constructor 
