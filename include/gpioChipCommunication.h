@@ -19,9 +19,10 @@ class gpioChipCommunication {
 public:
   gpioChipCommunication();
   ~gpioChipCommunication();
+
+  struct gpiod_chip* chip;
 private:
   const char* chipName_;
-  struct gpiod_chip* chip;
 };
 
 #endif // !GPIO_CHIP_COMMUNICTAION_H
