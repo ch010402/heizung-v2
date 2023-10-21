@@ -150,10 +150,6 @@ bool checkLowTarif() {
   return false;
 }
 
-/*rest*/
-
-std::shared_ptr<gpioChipCommunication> io::gpioChipCommunicationInstance;
-
 /*main*/
 
 int main(int argc, char** argv) {
