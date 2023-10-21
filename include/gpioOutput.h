@@ -36,7 +36,7 @@ private:
   static int instanceCount;
   struct gpiod_line* line;
 
-  void initialized();
+  void initialize();
 };
 
 #endif // !GPIO_OUTPUT_H
