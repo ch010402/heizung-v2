@@ -201,7 +201,11 @@ int main(int argc, char** argv) {
   
   //remove all objectsToRemove
   for (const std::string& name : objectsToRemove) {
-	gpioOutputs.erase(std::remove_if(gpioOutputs.begin(), gpioOutputs.cend(), [&name](const gpioOutput& io) { return io.getName() == name; }), gpioOutputs.end());
+	gpioOutputs.erase(
+	  std::remove_if(gpioOutputs.begin(), gpioOutputs.end(), 
+	  [&name](const gpioOutput& io) { return io.getName() == name; }), 
+	  gpioOutputs.end()
+	);
   }
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
 
