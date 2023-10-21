@@ -260,8 +260,11 @@ int main(int argc, char** argv) {
 	}
   }
 
-  /*
   gpioOutput blue("blue led", 22);
+  blue.on();
+  usleep(2 * 1000000);
+  blue.off();
+  /*
   mixer red("red", 23, 5, 5, 16);
   gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
   */
