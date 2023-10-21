@@ -141,7 +141,7 @@ public:
 
 private:
   
-  static std::shared_ptr<gpioChipCommunication> gpioChipCommunication;
+  static std::shared_ptr<gpioChipCommunication> gpioChipCommunicationInstance;
   // use for counting how many instances of this object where created to close connection to the chip
   static int instanceCount;
   // set the chip name as const as we use a raspberryPi we have a "gpiochip0" 
