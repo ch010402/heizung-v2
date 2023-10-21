@@ -174,7 +174,7 @@ int main(int argc, char** argv) {
   signal(SIGINT, handleSigInt);
 
   //// setup
-  bool test = false;
+  bool testBetrieb = true;
   std::vector<gpioOutput> gpioOutputs;
   std::vector<gpioOutput> testLEDs{
 	{"red1",23},
@@ -215,7 +215,7 @@ int main(int argc, char** argv) {
   };
 
   //build all objects 
-  for (const gpioOutput& io : test ? productiveOuts:testLEDs) {
+  for (const gpioOutput& io : testBetrieb ? testLEDs:productiveOuts) {
     gpioOutputs.push_back(io);
   } 
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
