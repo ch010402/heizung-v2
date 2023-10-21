@@ -45,6 +45,9 @@ enum ioType {
 
 /*classes*/
 
+// Forward declaration of io class
+class io;
+
 // CLASS gpioChipCommunication
 // has no function and no variables to access 
 // is used to open the communication to the gpio interface
