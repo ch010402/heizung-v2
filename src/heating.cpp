@@ -232,10 +232,10 @@ int main(int argc, char** argv) {
   };
   for (auto it = gpioOutputs.begin(); it != gpioOutputs.end();) {
 	if (std::find(objectsToRemove.begin(), objectsToRemove.end(), it->getName()) != objectsToRemove.end()) {
-	  it = gpioOutputs.erase(it);  // Remove the element
+	  it = gpioOutputs.erase(it);
 	}
 	else {
-	  ++it;  // Move to the next element
+	  ++it;
 	}
   }
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
