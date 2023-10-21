@@ -49,6 +49,10 @@ void gpioOutput::toggle() {
 int gpioOutput::getInstanceCount() {
   return instanceCount;
 }
+std::string gpioOutput::getName()
+{
+	return ioName_;
+}
 void gpioOutput::initialize() {
   if (!gpioChipCommunicationInstance) {
 	gpioChipCommunicationInstance = std::make_shared<gpioChipCommunication>();

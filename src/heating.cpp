@@ -181,10 +181,23 @@ int main(int argc, char** argv) {
 	{"green3",20},
 	{"blue",22}
   };
+  std::vector<std::string> objectsToRemove{
+	"yellow2",
+	"green2",
+	"red2"
+  };
 
+  //build all leds 
   for (const gpioOutput& io : testLEDs) {
 	gpioOutputs.push_back(io);
   }
+  std::cout << gpioOutputs.size() << " instances created." << std::endl;
+  
+  //remove all objectsToRemove
+  for (cosnt std::string& name : objectsToRemove) {
+	gpioOutputs.erase(std::remove_if(gpioOutputs.begin(), gpioOutputs.cend(), [&name](const gpioOutput& io) { return io.getName() == name; }), gpioOutputs.end());
+  }
+  std::cout << gpioOutputs.size() << " instances created." << std::endl;
 
   for (gpioOutput& io : gpioOutputs) {
 	io.on();

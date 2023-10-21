@@ -27,6 +27,7 @@ public:
   void toggle();
 
   static int getInstanceCount();
+  std::string getName();
 private:
   int gpioPin_;
   bool initialized_;
