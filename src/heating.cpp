@@ -228,7 +228,7 @@ int main(int argc, char** argv) {
 	io.off();
 	usleep(0.1 * 1000000);
   }
-
+/*
   //remove all objectsToRemove
   for (const std::string& name : objectsToRemove) {
 	gpioOutputs.erase(
@@ -238,7 +238,7 @@ int main(int argc, char** argv) {
 	);
   }
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
-
+*/
   for (gpioOutput& io : gpioOutputs) {
 	io.on();
 	usleep(0.2 * 1000000);
