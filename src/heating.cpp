@@ -150,8 +150,8 @@ bool checkLowTarif() {
 
 // FUNCTION handleSigTerm()
 //
-void handleSigTerm(int signum) {
-  // Handle the SIGTERM signal here
+void handleSigInt(int signum) {
+  // Handle the SIGINT signal here
   // Call the destructor of gpioChipCommunication or any other cleanup needed
   std::cout << "Ctrl+C program abort" << std::endl;
   // Exit the program gracefully (if desired)
@@ -161,14 +161,11 @@ void handleSigTerm(int signum) {
 /*main*/
 
 int main(int argc, char** argv) {
-  //// setup
-  struct sigaction action;
-  action.sa_handler = handleSigTerm;
-  sigemptyset(&action.sa_mask);
-  action.sa_flags = 0;
-  sigaction(SIGTERM, &action, nullptr);
+  //// handle SIGINT
+  signal(SIGINT, handleSigInt);
 
-  gpioOutput blue("blue led", 22);
+  //// setup
+    gpioOutput blue("blue led", 22);
   mixer red("red", 23, 5, 5, 16);
   gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
   
