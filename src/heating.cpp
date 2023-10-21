@@ -212,7 +212,10 @@ int main(int argc, char** argv) {
     gpioOutputs.push_back(io);
   } 
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
-  
+  for (const gpioOutput& io : gpioOutputs) {
+	std::cout << "Remaining element: " << io.getName() << std::endl;
+  }
+
   for (gpioOutput& io : gpioOutputs) {
 	io.on();
 	usleep(0.1 * 1000000);
