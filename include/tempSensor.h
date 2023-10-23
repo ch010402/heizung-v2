@@ -22,6 +22,7 @@ public:
   
   double getTemp();
   std::string getName();
+  double getOffset();
 private:
   std::string sensorName_;
   std::string sensorAddresss_;
