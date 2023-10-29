@@ -13,7 +13,8 @@
 #define TEMPERATUR_SENSOR_H
 
 #include <string>
-#include <stringstream>
+#include <sstream>
+#include <fstream>
 
 class temperaturSensor {
 public:
@@ -27,8 +28,15 @@ private:
   std::string sensorName_;
   std::string sensorAddresss_;
   double tempOffset_;
+  double temperatur_;
   std::string baseDir_;
   std::string tempFile_;
   std::string path_;
+  std::string rawData_;
+  ifstream infile_;
+  stringstream buffer_;
+  size_t crcCheck_;
+  size_t temparaturValue_;
+  std::string strTemparatur_;
 };
 #endif //!TEMPERATUR_SENSOR_H

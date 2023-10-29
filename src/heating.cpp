@@ -1,6 +1,6 @@
 /*
 * GNU GPL v3.0
-* heating controlls IO's on a raspberryPi that controll my house heating 
+* heating controls IO's on a raspberryPi that control my house heating 
 * this is the second version based on libgpiod as wiringPi is depriciated and no longer in the distro
 * the current version is (libgpiod) v1.6.3 supplied with debian bookworm arm64
 * 
