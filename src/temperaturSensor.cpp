@@ -8,6 +8,7 @@
 * GNU GPL v3.0
 */
 
+#include <iostream>
 #include "temperaturSensor.h"
 
 // define statics 
@@ -17,7 +18,7 @@ std::string tempFile_ = "/w1_slave";
 
 //Constructor
 temperaturSensor::temperaturSensor(std::string sensorName, std::string sensorAddress, double offset) :
-sensorName_ = sensorName, sensorAddresss_=sensorAddress, tempOffset_ = offset {
+sensorName_(sensorName), sensorAddresss_(sensorAddress), tempOffset_(offset) {
   path_ = baseDir_ + sensorAddresss_ + tempFile_;
   std::cout << sensorName_ << " on " << path_ << " erstellt." << std::endl;
 }
@@ -29,7 +30,7 @@ temperaturSensor::~temperaturSensor() {}
 
 // returns the temparature as a double in °C
 double temperaturSensor::getTemp(){
-  ifstream infile_(path_);
+  std::ifstream infile_(path_);
   if (infile_) {
     buffer_ << infile_.rdbuf();
     infile_.close();
@@ -41,12 +42,12 @@ double temperaturSensor::getTemp(){
     return -100;
   }
   size_t crcCheck_ = rawData_.find("YES");
-  if (crcCheck_ == string::npos) {
+  if (crcCheck_ == std::string::npos) {
     std::cout << "Error CRC not valid: " << sensorName_ << std::endl;
     return -101;
   }
   size_t temparaturValue_ = rawData_.find("t=");
-  if (temparaturValue_ == str::npos) {
+  if (temparaturValue_ == std::string::npos) {
     std::cout << "Failed to find a temaparatur value: " << sensorName_ << std::endl;
   }
   std::string strTemparatur_ = rawData_.substr(temparaturValue_+2);
@@ -54,7 +55,7 @@ double temperaturSensor::getTemp(){
   return temperatur_;
 }
 // returns the sensor name
-std:string temperaturSensor::getName(){
+std::string temperaturSensor::getName(){
   return sensorName_;
 }
 // returns the offset of the temperatur sensor
