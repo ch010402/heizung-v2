@@ -33,8 +33,8 @@ private:
   std::string tempFile_;
   std::string path_;
   std::string rawData_;
-  ifstream infile_;
-  stringstream buffer_;
+  std::ifstream infile_;
+  std::stringstream buffer_;
   size_t crcCheck_;
   size_t temparaturValue_;
   std::string strTemparatur_;
