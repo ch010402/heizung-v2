@@ -11,8 +11,8 @@
 #include "temperaturSensor.h"
 
 // define statics 
-baseDir_ = "/sys/bus/w1/devices/";
-tempFile_ = "/w1_slave";
+std::string baseDir_ = "/sys/bus/w1/devices/";
+std::string tempFile_ = "/w1_slave";
 
 
 //Constructor

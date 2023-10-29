@@ -8,7 +8,7 @@
 * GNU GPL v3.0
 */
 
-#ifdef TEMPERATUR_SENSOR_H
+#ifndef TEMPERATUR_SENSOR_H
 
 #define TEMPERATUR_SENSOR_H
 
@@ -18,8 +18,8 @@
 
 class temperaturSensor {
 public:
-  tempaparturSensor(std::string sensorName, std::string sensorAddress, double offset);
-  ~tempaparturSensor();
+  temperaturSensor(std::string sensorName, std::string sensorAddress, double offset);
+  ~temperaturSensor();
   
   double getTemp();
   std::string getName();

@@ -39,6 +39,7 @@
 #include <vector>	//
 #include <algorithm>//
 #include "gpioOutput.h"
+#include "temperaturSensor.h"
 
 
 /*misc*/
@@ -269,7 +270,8 @@ int main(int argc, char** argv) {
   gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
   */
   //// start
- 
+  tempaparturSensor::tempaparturSensor sens1("sens1", "123",0.0);
+  std::cout << sens1.getTemp() << std::endl;
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
 
   /*
