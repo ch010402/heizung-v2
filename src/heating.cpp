@@ -168,6 +168,7 @@ void handleSigInt(int signum) {
   exit(0);
 }
 
+
 /*main*/
 
 int main(int argc, char** argv) {
@@ -207,8 +208,8 @@ int main(int argc, char** argv) {
 	{"reserve 2", 27},
   };
   std::vector<std::string> objectsToRemove{
-    "red1",
   };
+
 
   //build all objects 
   for (const gpioOutput& io : testBetrieb ? testLEDs:productiveOuts) {
