@@ -6,19 +6,23 @@
 * the current version is (libgpiod) v1.6.3 supplied with debian bookworm arm64
 *
 * GNU GPL v3.0
+*
+* g++ -c ../src/temperaturSensor.cpp -o temperaturSensor.o -I../include
 */
 
 #include <iostream>
 #include "temperaturSensor.h"
 
 // define statics 
-std::string baseDir_ = "/sys/bus/w1/devices/";
-std::string tempFile_ = "/w1_slave";
 
 
 //Constructor
+
+// temperaturSensor(string sensorName, string sensorAddress, double offest)
 temperaturSensor::temperaturSensor(std::string sensorName, std::string sensorAddress, double offset) :
 sensorName_(sensorName), sensorAddresss_(sensorAddress), tempOffset_(offset) {
+  baseDir_ = "/sys/bus/w1/devices/";
+  tempFile_ = "/w1_slave";
   path_ = baseDir_ + sensorAddresss_ + tempFile_;
   std::cout << sensorName_ << " on " << path_ << " erstellt." << std::endl;
 }

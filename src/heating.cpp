@@ -205,7 +205,9 @@ int main(int argc, char** argv) {
 	{"Ofenpumpe Stufe3", 12},
 	{"reserve 1", 18},
 	{"reserve 2", 27},
-
+  };
+  std::vector<std::string> objectsToRemove{
+    "red1",
   };
 
   //build all objects 
@@ -226,14 +228,7 @@ int main(int argc, char** argv) {
 	usleep(0.1 * 1000000);
   }
 
-  //remove all objectsToRemove
-  std::vector<std::string> objectsToRemove{
-	"red2",
-	"yellow2",
-	"green2",
-	"reserve 1",
-	"reserve 2"
-  };
+  //remove objects
   for (auto it = gpioOutputs.begin(); it != gpioOutputs.end();) {
 	if (std::find(objectsToRemove.begin(), objectsToRemove.end(), it->getName()) != objectsToRemove.end()) {
 	  it = gpioOutputs.erase(it);
@@ -242,6 +237,7 @@ int main(int argc, char** argv) {
 	  ++it;
 	}
   }
+
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
 
   for (gpioOutput& io : gpioOutputs) {
@@ -249,7 +245,7 @@ int main(int argc, char** argv) {
 	usleep(0.2 * 1000000);
   }
   // Iterate through the remaining elements in the vector and print their names
-  for (const gpioOutput& io : gpioOutputs) {
+  for (gpioOutput& io : gpioOutputs) {
 	std::cout << "Remaining element: " << io.getName() << std::endl;
   }
   for (gpioOutput& io : gpioOutputs) {
@@ -270,8 +266,10 @@ int main(int argc, char** argv) {
   gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
   */
   //// start
-  temperaturSensor sens1("sens1", "123",0.0);
+
+  temperaturSensor sens1("sens1", "28-3c01a8168c89", 0.0);
   std::cout << sens1.getTemp() << std::endl;
+ 
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
 
   /*
