@@ -127,7 +127,7 @@ private:
 /*functions*/
 
 // FUNCTION checkLowTarif()
-// returns boolean ture or false
+// returns boolean TRUE or FALSE if at the time of request the low tarife is active
 bool checkLowTarif() {
   // Get the current system time using the system clock
   auto currentTime = std::chrono::system_clock::now();
@@ -162,8 +162,8 @@ bool checkLowTarif() {
 //
 void handleSigInt(int signum) {
   // Handle the SIGINT signal here
-  // Call the destructor of gpioChipCommunication or any other cleanup needed
-  std::cout << " Ctrl+C program abort" << std::endl;
+  // TODO: Call the destructor of gpioChipCommunication or any other cleanup needed
+  std::cout << "\n\nCtrl+C program abort\n\n";
   // Exit the program gracefully (if desired)
   exit(0);
 }
@@ -208,6 +208,7 @@ int main(int argc, char** argv) {
 	{"reserve 2", 27},
   };
   std::vector<std::string> objectsToRemove{
+    "green3",
   };
 
 
@@ -215,9 +216,9 @@ int main(int argc, char** argv) {
   for (const gpioOutput& io : testBetrieb ? testLEDs:productiveOuts) {
     gpioOutputs.push_back(io);
   } 
-  std::cout << gpioOutputs.size() << " instances created." << std::endl;
+  std::cout << gpioOutputs.size() << " instances in vector." << "\n";
   for (const gpioOutput& io : gpioOutputs) {
-	std::cout << "Remaining element: " << io.getName() << std::endl;
+	std::cout << "Element in vector: " << io.getName() << "\n";
   }
 
   for (gpioOutput& io : gpioOutputs) {
@@ -239,7 +240,7 @@ int main(int argc, char** argv) {
 	}
   }
 
-  std::cout << gpioOutputs.size() << " instances created." << std::endl;
+  std::cout << gpioOutputs.size() << " instances in vector." << "\n";
 
   for (gpioOutput& io : gpioOutputs) {
 	io.on();
@@ -247,25 +248,24 @@ int main(int argc, char** argv) {
   }
   // Iterate through the remaining elements in the vector and print their names
   for (gpioOutput& io : gpioOutputs) {
-	std::cout << "Remaining element: " << io.getName() << std::endl;
+	std::cout << "Element in vectro: " << io.getName() << "\n";
   }
   for (gpioOutput& io : gpioOutputs) {
 	io.off();
 	usleep(0.2 * 1000000);
   }
+  
+  usleep(2 * 1000000);
   // single led output
   for (gpioOutput& io : gpioOutputs) {
 	if (io.getName() == "blue") {
-	  std::cout << io.getName() <<" is on @ pin: " << io.getPin() << " and is: "<< io.getInitialized() << std::endl;
+	  std::cout << io.getName() <<" is ON @ pin: " << io.getPin() << " and is: "<< io.getInitialized() << "\n";
 	  io.on();
 	  usleep(2 * 1000000);
 	  io.off();
 	}
   }
-  /*
-  mixer red("red", 23, 5, 5, 16);
-  gpioOutput red3("HighTarif", 24), green1("LowTarif", 19);
-  */
+
   //// start
 
   temperaturSensor sens1("sens1", "28-3c01a8168c89", 0.0);

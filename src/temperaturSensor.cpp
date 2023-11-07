@@ -6,7 +6,8 @@
 * the current version is (libgpiod) v1.6.3 supplied with debian bookworm arm64
 *
 * GNU GPL v3.0
-*
+* 
+* to prcompile use:
 * g++ -c ../src/temperaturSensor.cpp -o temperaturSensor.o -I../include
 */
 
@@ -18,13 +19,13 @@
 
 //Constructor
 
-// temperaturSensor(string sensorName, string sensorAddress, double offest)
+// temperaturSensor(string sensorName, string sensorAddress, double offset)
 temperaturSensor::temperaturSensor(std::string sensorName, std::string sensorAddress, double offset) :
 sensorName_(sensorName), sensorAddresss_(sensorAddress), tempOffset_(offset) {
   baseDir_ = "/sys/bus/w1/devices/";
   tempFile_ = "/w1_slave";
   path_ = baseDir_ + sensorAddresss_ + tempFile_;
-  std::cout << sensorName_ << " on " << path_ << " erstellt." << std::endl;
+  //debug text std::cout << sensorName_ << " on " << path_ << " erstellt." << std::endl;
 }
 
 //Destructor
@@ -32,7 +33,7 @@ temperaturSensor::~temperaturSensor() {}
 
 // functions
 
-// returns the temparature as a double in °C
+// double getTemp() returns the temparature as a double in °C
 double temperaturSensor::getTemp(){
   std::ifstream infile_(path_);
   if (infile_) {
@@ -58,11 +59,13 @@ double temperaturSensor::getTemp(){
   double temperatur_ = stod(strTemparatur_) / 1000;
   return temperatur_;
 }
-// returns the sensor name
+
+// string getName() returns the sensor name
 std::string temperaturSensor::getName(){
   return sensorName_;
 }
-// returns the offset of the temperatur sensor
+
+// double getOffset returns the offset of the temperatur sensor in °C
 double temperaturSensor::getOffset() {
   return tempOffset_;
 }
