@@ -40,6 +40,8 @@
 #include <algorithm>//
 #include "gpioOutput.h"
 #include "temperaturSensor.h"
+#include "mischer.h"
+#include "checkTime.h"
 
 
 /*misc*/
@@ -48,115 +50,7 @@
 
 /*classes*/
 
-// CLASS  mixer (string mxName, int gpioPin1, int gpioPin2, int openCloseDuration, int steps)
-// has functions open(), close(), destroy()
-// has accessable variables state_ (true/false) currentStep_
-class mixer {
-private:
-  // int openCloseDuration_ is the duration the mixer requires to move from fully closed to fully opend
-  int openCloseDuration_;
-  // int steps_ the total number of steps
-  int steps_;
-  // int currentStep_ stores the current step the mixer is at
-  int currentStep_ = 0;
-  // io ioOpen ioClose as a mixer needs two output one to open and one to close 
-  gpioOutput ioOpen, ioClose;
-  // bool initilaized_ true if the postion of the mixer is known, default to false 
-  bool initilized_ = false;
-public:
-  // string mxName_ keeps the name of the mixer
-  std::string mxName_;
-
-  //// default constructor 
-  mixer(std::string mxName, int gpioPin1, int gpioPin2, int openCloseDuration, int steps) :
-	openCloseDuration_(openCloseDuration),
-	steps_(steps),
-	ioOpen(mxName + ".open", gpioPin1),
-	ioClose(mxName + ".close", gpioPin2),
-	mxName_(mxName) {
-	initialize();
-  }
-
-  //// functions
-
-  // mixer.open() opens the mixer by one step
-  void open() {
-	if (!initilized_)
-	  initialize();
-	// ensures that ioClose is off, switches ioOpen on and waits one step and then turns ioOpen off
-	if (currentStep_ < steps_) {
-	  ioClose.off();
-	  ioOpen.on();
-	  waitOneStep();
-	  ioOpen.off();
-	  currentStep_++;
-	}
-  }
-  // mixer.close() closes the mixer by one step
-  void close() {
-	if (!initilized_)
-	  initialize();
-	// ensures that ioOpen is off, switches ioClose on and waits one step and then turns ioClose off
-	if (currentStep_ > 1) {
-	  ioOpen.off();
-	  ioClose.on();
-	  waitOneStep();
-	  ioClose.off();
-	  currentStep_--;
-	}
-  }
-private:
-  // mixer.waitOneStep waits 1/step of the full open close cycle in seconds
-  void waitOneStep() {
-	usleep(openCloseDuration_ * 1000000 / steps_);
-  }
-  // mixer.initialize() turn the mixer all to the closed position by waiting a full turn set the currentStep to 1 
-  void initialize() {
-	ioOpen.off();
-	// turn the mixer all to the closed position by waiting a full turn 
-	for (int i = 1; i <= steps_; i++) {
-	  ioClose.on();
-	  waitOneStep();
-	  ioClose.off();
-	}
-	currentStep_ = 1;
-	initilized_ = true;
-  }
-};
-
 /*functions*/
-
-// FUNCTION checkLowTarif()
-// returns boolean TRUE or FALSE if at the time of request the low tarife is active
-bool checkLowTarif() {
-  // Get the current system time using the system clock
-  auto currentTime = std::chrono::system_clock::now();
-  // Convert the system time to a time_point object
-  std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
-  // Convert the time_point to a string representation
-  std::string currentTimeStr = std::ctime(&currentTime_t);
-  // Convert the time_point to a struct tm
-  std::tm* currentTime_tm = std::localtime(&currentTime_t);
-
-  // Extract individual components
-  //  int year = currentTime_tm->tm_year + 1900;  // Years since 1900
-  //  int month = currentTime_tm->tm_mon + 1;     // Month (0-based index)
-  //  int day = currentTime_tm->tm_mday;          // Day of the month
-  int hour = currentTime_tm->tm_hour;         // Hour
-  //  int minute = currentTime_tm->tm_min;        // Minute
-  //  int second = currentTime_tm->tm_sec;        // Second
-  int weekday = currentTime_tm->tm_wday;      // days since sunday
-
-  //debug std::cout << currentTimeStr << std::endl;
-
-  if (weekday == 0 || weekday == 6) {
-	return true;
-  }
-  else if (hour < 7 || hour >= 20) {
-	return true;
-  }
-  return false;
-}
 
 // FUNCTION handleSigTerm()
 //
@@ -272,6 +166,14 @@ int main(int argc, char** argv) {
   std::cout << sens1.getTemp() << std::endl;
  
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
+
+  checkTime nowTime;
+  if (nowTime.checkLowTarif()) {
+    std::cout << "Niedertarif\n";
+  }
+  else {
+    std::cout << "HOCHtarif\n";
+  }
 
   /*
   //test HT or LT
