@@ -16,6 +16,7 @@
 #include <string>
 #include <vector>
 
+// void checkTime() creates a time object
 class checkTime {
 public:
   checkTime();

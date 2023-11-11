@@ -17,6 +17,7 @@
 #include <memory>
 #include "gpioChipCommunication.h"
 
+// gpioOutput(string ioName, int gpioPin)
 class gpioOutput {
 public:
   gpioOutput(std::string ioName, int gpioPin);

@@ -32,12 +32,11 @@
 #include <iostream> // used for interacting with the console (cout)
 #include <unistd.h> // used for usleep //myabe replace by chrono
 #include <string>   // used for strings
-#include <chrono>   // used to access the system time 
-#include <ctime>    // to manipulate the t_time 
-#include <memory>   // 
-#include <csignal>  //
-#include <vector>	//
-#include <algorithm>//
+#include <memory>
+#include <csignal>
+#include <vector>
+#include <algorithm>
+//myClasses 
 #include "gpioOutput.h"
 #include "temperaturSensor.h"
 #include "mischer.h"
@@ -56,7 +55,7 @@
 //
 void handleSigInt(int signum) {
   // Handle the SIGINT signal here
-  // TODO: Call the destructor of gpioChipCommunication or any other cleanup needed
+  // TODO: Call the destructor of gpioChipCommunication and any other cleanup needed
   std::cout << "\n\nCtrl+C program abort\n\n";
   // Exit the program gracefully (if desired)
   exit(0);
@@ -105,6 +104,17 @@ int main(int argc, char** argv) {
     "green3",
   };
 
+  if (__cplusplus == 201703L)
+    std::cout << "C++17" << std::endl;
+  else if (__cplusplus == 201402L)
+    std::cout << "C++14" << std::endl;
+  else if (__cplusplus == 201103L)
+    std::cout << "C++11" << std::endl;
+  else if (__cplusplus == 199711L)
+    std::cout << "C++98" << std::endl;
+  else
+    std::cout << "pre-standard C++" << std::endl;
+
 
   //build all objects 
   for (const gpioOutput& io : testBetrieb ? testLEDs:productiveOuts) {
@@ -130,7 +140,7 @@ int main(int argc, char** argv) {
 	  it = gpioOutputs.erase(it);
 	}
 	else {
-	  ++it;
+	  it++;
 	}
   }
 
@@ -168,8 +178,10 @@ int main(int argc, char** argv) {
   std::cout << gpioOutputs.size() << " instances created." << std::endl;
 
   checkTime nowTime;
+  for (int i: nowTime.getTime())
+    std::cout << i << ":";
   if (nowTime.checkLowTarif()) {
-    std::cout << "Niedertarif\n";
+    std::cout << " Niedertarif\n";
   }
   else {
     std::cout << "HOCHtarif\n";

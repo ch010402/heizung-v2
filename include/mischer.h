@@ -15,6 +15,8 @@
 #include "gpioOutput.h"
 #include <unistd.h>
 
+//mischer(string mischerName, gpioOutput opener, gpioOutput closer, int cycleduration, int steps)
+//set the cycleduration in seconds from fully close to fully open, choose a sane value for steps (steps <3 will be defaulted to 5)
 class mischer {
 public:
   mischer(std::string mischerName, gpioOutput opener, gpioOutput closer, int cycleDuration, int steps);
