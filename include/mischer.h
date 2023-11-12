@@ -24,7 +24,9 @@ public:
   
   int getCurrenStep();
   std::string getName();
-  void setStep(int currentStep_);
+  void setStep(int newStep);
+  void open();
+  void close();
 private:
   std::string mischerName_;
   gpioOutput opener_;
@@ -33,10 +35,9 @@ private:
   int steps_;
   double oneStep_;
   int currentStep_;
+  int newStep;
   void initialize();
   bool inititalized_;
-  void open();
-  void close();
 };
 
 #endif //!MISCHER_H

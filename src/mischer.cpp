@@ -44,6 +44,9 @@ std::string mischer::getName() {
 
 // setStep(int) lets you set the step to be at
 void mischer::setStep(int newStep) {
+  if (!inititalized_) {
+    initialize();
+  }
   if (newStep == currentStep_) {
     return;
   };
@@ -76,7 +79,7 @@ void mischer::initialize() {
   currentStep_ = 1;
 }
 
-// open() opens the mischer bei one step
+// open() opens the mischer one step
 void mischer::open() {
   if (!inititalized_) {
     initialize();
@@ -88,7 +91,7 @@ void mischer::open() {
   currentStep_++;
 }
 
-// close() closes the mischer bei one step
+// close() closes the mischer one step
 void mischer::close() {
   if (!inititalized_) {
     initialize();
