@@ -14,6 +14,10 @@
 #include <iostream>
 #include "temperaturSensor.h"
 
+// ANSI escape codes for text color
+#define RED_TEXT "\033[1;31m"
+#define RESET_COLOR "\033[0m"
+
 // define statics 
 
 
@@ -34,7 +38,7 @@ temperaturSensor::~temperaturSensor() {}
 // functions
 
 // double getTemp() returns the temparature as a double in °C
-double temperaturSensor::getTemp(){
+double temperaturSensor::getTemp() {
   std::ifstream infile_(path_);
   if (infile_) {
     buffer_ << infile_.rdbuf();
@@ -43,17 +47,18 @@ double temperaturSensor::getTemp(){
   }
   else {
     infile_.close();
-    std::cout << "Error could not read sensor: " << sensorName_ << std::endl;
+    std::cout << RED_TEXT << "Error could not read sensor file: " << RESET_COLOR << sensorName_ << " ";
     return -100;
   }
   size_t crcCheck_ = rawData_.find("YES");
   if (crcCheck_ == std::string::npos) {
-    std::cout << "Error CRC not valid: " << sensorName_ << std::endl;
+    std::cout << "Error CRC not valid: " << sensorName_ << " ";
     return -101;
   }
   size_t temparaturValue_ = rawData_.find("t=");
   if (temparaturValue_ == std::string::npos) {
-    std::cout << "Failed to find a temaparatur value: " << sensorName_ << std::endl;
+    std::cout << "Failed to find a temaparatur value: " << sensorName_ << " ";
+    return -102;
   }
   std::string strTemparatur_ = rawData_.substr(temparaturValue_+2);
   double temperatur_ = stod(strTemparatur_) / 1000;
@@ -61,7 +66,7 @@ double temperaturSensor::getTemp(){
 }
 
 // string getName() returns the sensor name
-std::string temperaturSensor::getName(){
+std::string temperaturSensor::getName() {
   return sensorName_;
 }
 

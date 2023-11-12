@@ -33,6 +33,7 @@
 #include <unistd.h> // used for usleep //myabe replace by chrono
 #include <string>   // used for strings
 #include <csignal>
+#include <vector>
 //myClasses 
 #include "gpioOutput.h"
 #include "temperaturSensor.h"
@@ -82,18 +83,53 @@ int main(int argc, char** argv) {
     ;
   // reserve
   gpioOutput reserve1("reseve1", 18),
-    reserve2("reseve2", 27)
-    //reserve3("reseve3", 18)
+    reserve2("reseve2", 27),
+    reserve3("reseve3", 17)
     ;
   // mischer
-  mischer elektroMischer("Elektromischer", elektroMischerOpener, elektroMischerCloser, 82, 10),
-    heizMischer("Heizmischer", heizMischerOpener, heizMischerCloser, 60, 10)
+  mischer elektroMischer("Elektromischer", elektroMischerOpener, elektroMischerCloser, 5, 10), //default 82
+    heizMischer("Heizmischer", heizMischerOpener, heizMischerCloser, 5, 10) //default 60
     ;
+  // temperaturSensors
+  temperaturSensor aussenTemperatur("Aussen Temperatur", "28-0416a10c28ff", 0.0),
+    heizungVorlauf("Heizung Vorlauf", "28-0516a12e05ff", 0.0),
+    heizungRuecklauf("Heizung Rücklauf", "28-0316a162a9ff", 0.0),
+    boilerVorlauf("Boiler Volrauf", "28-0516a1529bff", 0.0),
+    boilerRuecklauf("Boiler Rücklauf", "28-0416a10f65ff", 0.0),
+    boilerOben("Boiler Temperatur oben", "28-0416a13049ff", 0.0),
+    boilerUnten("Boiler Temperatur unten", "28-0416a1295fff", 0.0),
+    elektroVorlauf("Durchlauferhitzer Vorlauf", "28-0516a15419ff", 0.0),
+    elektroReucklauf("Durchlauferhitzer Rücklauf", "28-0316a15a36ff", 0.0),
+    ofenVorlauf("Ofen Vorlauf", "28-0416a12058ff", 0.0),
+    ofenRuecklauf("Ofen Rücklauf", "28-0416a10e34ff", 0.0),
+    speicherOben("Speicher oben", "28-0316a15f04ff", 0.0),
+    speicherMitte("Speicher mitte", "28-0416a10cc1ff", 0.0),
+    speicherUnten("Speicher unten", "28-0416a10de1ff", 0.0),
+    testSensor("Test Sensor 1", "28-3c01a8168c89", 0.0)
+    ;
+    std::vector<std::reference_wrapper<temperaturSensor>> tempSensors = {
+      aussenTemperatur, 
+      heizungVorlauf, 
+      heizungRuecklauf, 
+      boilerVorlauf, 
+      boilerRuecklauf, 
+      boilerOben, 
+      boilerUnten,
+      elektroVorlauf,
+      elektroReucklauf,
+      ofenVorlauf,
+      ofenRuecklauf,
+      speicherOben,
+      speicherMitte,
+      speicherUnten,
+      testSensor
+      };
 
   //// start
   // set all pumps to off
   elektroPumpe.off();
   boilerPumpe.off();
+  umlaufPumpe.off();
   ofenPupmeS1.off();
   ofenPupmeS2.off();
   ofenPupmeS3.off();
@@ -104,7 +140,15 @@ int main(int argc, char** argv) {
   elektroRelais.off();
   reserve1.off();
   reserve2.off();
+  reserve3.off();
+  // check all temperatur sensors
+  for (auto& sens : tempSensors) {
+    std::cout << sens.get().getName() << ": " << sens.get().getTemp() << "°C\n";
+  }
 
+  //// testing
+  elektroMischer.setStep(5);
+  elektroMischer.setStep(1);
   //// loop
 
   //// close 

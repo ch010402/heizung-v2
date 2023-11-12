@@ -16,15 +16,16 @@
 
 //mischer(string mischerName, gpioOutput opener, gpioOutput closer, int cycleduration, int steps)
 //set the cycleduration in seconds from fully close to fully open, choose a sane value for steps (steps <3 will be defaulted to 5)
-mischer::mischer(std::string mischerName, gpioOutput opener, gpioOutput closer, int cycleDuration, int steps)
+mischer::mischer(std::string mischerName, gpioOutput &opener, gpioOutput &closer, int cycleDuration, int steps)
 : mischerName_(mischerName), opener_(opener), closer_(closer), cycleDuration_(cycleDuration), steps_(steps) {
   inititalized_ = false;
   currentStep_ = 0;
-  oneStep_ = cycleDuration_ / steps_;
+  oneStep_ = (double)cycleDuration_ / steps_;
   if (steps_ < 3){
     steps_ = 5;
     };
 }
+
 // Destructor
 mischer::~mischer() {
   //close the mischer all the way
@@ -71,12 +72,14 @@ void mischer::setStep(int newStep) {
 
 // initializes the mischer to position 1 
 void mischer::initialize() {
+  std::cout << "initialisiere " << mischerName_ << "\n";
   opener_.off();
   closer_.on();
   usleep(cycleDuration_*1000000);
   closer_.off();
   inititalized_ = true;
   currentStep_ = 1;
+  std::cout << " -> erledigt.\n";
 }
 
 // open() opens the mischer one step
@@ -86,7 +89,7 @@ void mischer::open() {
   }
   closer_.off();
   opener_.on();
-  usleep(oneStep_*1000000);
+  usleep(mischer::oneStep_*1000000);
   opener_.off();
   currentStep_++;
 }

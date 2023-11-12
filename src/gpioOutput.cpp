@@ -16,18 +16,14 @@
 // Define the static member
 std::shared_ptr<gpioChipCommunication> gpioOutput::gpioChipCommunicationInstance;
 
-int gpioOutput::instanceCount = 0;
-
 // Constructor 
 gpioOutput::gpioOutput(std::string ioName, int gpioPin) :
   gpioPin_(gpioPin), initialized_(false), ioName_(ioName), status_(false), line(nullptr) {
-  instanceCount++;
 }
 // Destructor
 gpioOutput::~gpioOutput() {
   // Ensure the IO is turned off before releasing the line
   gpioOutput::off();
-  instanceCount--;
   if (line) {
 	gpiod_line_release(line);
   }
@@ -54,11 +50,6 @@ void gpioOutput::toggle() {
   gpiod_line_set_value(line, status_ ? 0:1);
   status_ = !status_;
 }
-//int getInstanceCount() retuns the number of created instances 
-//depriciated 
-int gpioOutput::getInstanceCount() {
-  return instanceCount;
-}
 //string getName() retuns the name as string value 
 std::string gpioOutput::getName() const {
 	return ioName_;
@@ -73,10 +64,12 @@ bool gpioOutput::getInitialized() const {
 }
 //PRIVATE void initialize() initializes the gpio output
 void gpioOutput::initialize() {
+  std::cout << "Initialisiere Output: " << ioName_;
   if (!gpioChipCommunicationInstance) {
 	gpioChipCommunicationInstance = std::make_shared<gpioChipCommunication>();
   }
   line = gpiod_chip_get_line(gpioChipCommunicationInstance->chip, gpioPin_);
   gpiod_line_request_output(line, "output", 0);
   initialized_ = true;
+  std::cout << " <- erledigt.\n";
 }

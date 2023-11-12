@@ -19,7 +19,7 @@
 //set the cycleduration in seconds from fully close to fully open, choose a sane value for steps (steps <3 will be defaulted to 5)
 class mischer {
 public:
-  mischer(std::string mischerName, gpioOutput opener, gpioOutput closer, int cycleDuration, int steps);
+  mischer(std::string mischerName, gpioOutput &opener, gpioOutput &closer, int cycleDuration, int steps);
   ~mischer();
   
   int getCurrenStep();
@@ -29,8 +29,8 @@ public:
   void close();
 private:
   std::string mischerName_;
-  gpioOutput opener_;
-  gpioOutput closer_;
+  gpioOutput &opener_;
+  gpioOutput &closer_;
   int cycleDuration_;
   int steps_;
   double oneStep_;

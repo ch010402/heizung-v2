@@ -21,13 +21,13 @@
 class gpioOutput {
 public:
   gpioOutput(std::string ioName, int gpioPin);
+  gpioOutput() = default;
   ~gpioOutput();
 
   void on();
   void off();
   void toggle();
 
-  static int getInstanceCount();
   std::string getName() const;
   int getPin() const;
   bool getInitialized() const;
@@ -37,7 +37,6 @@ private:
   std::string ioName_;
   bool status_;
   static std::shared_ptr<gpioChipCommunication> gpioChipCommunicationInstance;
-  static int instanceCount;
   struct gpiod_line* line;
 
   void initialize();
