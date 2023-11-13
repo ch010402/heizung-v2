@@ -34,6 +34,8 @@
 #include <string>   // used for strings
 #include <csignal>
 #include <vector>
+#include <algorithm>
+#include <functional>
 //myClasses 
 #include "gpioOutput.h"
 #include "temperaturSensor.h"
@@ -76,7 +78,7 @@ int main(int argc, char** argv) {
     ;
   // switches
   gpioOutput elektroRelais("Elektrorelais", 4),
-    elektroMischerOpener("Elektromischer open", 6),
+    elektroMischerOpener("Elektromischer opener", 6),
     elektroMischerCloser("Elektromischer closer", 5),
     heizMischerOpener("Heizmischer opener", 23),
     heizMischerCloser("Heizmischer closer", 22)
@@ -147,8 +149,24 @@ int main(int argc, char** argv) {
   }
 
   //// testing
+  std::cout << tempSensors.size() << " elements\n";
+  tempSensors.erase(std::remove_if(tempSensors.begin(), tempSensors.end(),
+  [](auto& sensorRef){return sensorRef.get().getTemp() == -100; }),tempSensors.end());
+  std::cout << tempSensors.size() << " elements\n";
+  /*
+  auto it = std::find_if(tempSensors.begin(), tempSensors.end(),
+    [](auto& sensor) {return sensor.get().getTemp() == -100;});
+
+  if (it != tempSensors.end()) {
+    tempSensors.erase(it);
+  }
+  */
+
   elektroMischer.setStep(5);
   elektroMischer.setStep(1);
+  for (auto& sens : tempSensors) {
+    std::cout << sens.get().getName() << ": " << sens.get().getTemp() << "°C\n";
+  }
   //// loop
 
   //// close 
