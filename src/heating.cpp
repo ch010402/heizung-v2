@@ -54,8 +54,9 @@
 //
 void handleSigInt(int signum) {
   // Handle the SIGINT signal here
-  // TODO: Call the destructor of gpioChipCommunication and any other cleanup needed
   std::cout << "\n\nCtrl+C program abort\n\n";
+  // TODO: Call the destructor of gpioChipCommunication and any other cleanup needed
+  
   // Exit the program gracefully (if desired)
   exit(0);
 }
@@ -67,108 +68,157 @@ int main(int argc, char** argv) {
   //// handle SIGINT
   signal(SIGINT, handleSigInt);
 
-  //// setup
-  // Pumps
-  gpioOutput elektroPumpe("ElektroPumpe", 26), 
-    boilerPumpe("Boilerpumpe", 20), 
-    umlaufPumpe("Umlaufpumpe", 21),
-    ofenPupmeS1("Ofenpumpe Stufe1", 19),
-    ofenPupmeS2("Ofenpumpe Stufe2", 16),
-    ofenPupmeS3("Ofenpumpe Stufe3", 12)
-    ;
-  // switches
-  gpioOutput elektroRelais("Elektrorelais", 4),
-    elektroMischerOpener("Elektromischer opener", 6),
-    elektroMischerCloser("Elektromischer closer", 5),
-    heizMischerOpener("Heizmischer opener", 23),
-    heizMischerCloser("Heizmischer closer", 22)
-    ;
-  // reserve
-  gpioOutput reserve1("reseve1", 18),
-    reserve2("reseve2", 27),
-    reserve3("reseve3", 17)
-    ;
-  // mischer
-  mischer elektroMischer("Elektromischer", elektroMischerOpener, elektroMischerCloser, 5, 10), //default 82
-    heizMischer("Heizmischer", heizMischerOpener, heizMischerCloser, 5, 10) //default 60
-    ;
-  // temperaturSensors
-  temperaturSensor aussenTemperatur("Aussen Temperatur", "28-0416a10c28ff", 0.0),
-    heizungVorlauf("Heizung Vorlauf", "28-0516a12e05ff", 0.0),
-    heizungRuecklauf("Heizung Rücklauf", "28-0316a162a9ff", 0.0),
-    boilerVorlauf("Boiler Volrauf", "28-0516a1529bff", 0.0),
-    boilerRuecklauf("Boiler Rücklauf", "28-0416a10f65ff", 0.0),
-    boilerOben("Boiler Temperatur oben", "28-0416a13049ff", 0.0),
-    boilerUnten("Boiler Temperatur unten", "28-0416a1295fff", 0.0),
-    elektroVorlauf("Durchlauferhitzer Vorlauf", "28-0516a15419ff", 0.0),
-    elektroReucklauf("Durchlauferhitzer Rücklauf", "28-0316a15a36ff", 0.0),
-    ofenVorlauf("Ofen Vorlauf", "28-0416a12058ff", 0.0),
-    ofenRuecklauf("Ofen Rücklauf", "28-0416a10e34ff", 0.0),
-    speicherOben("Speicher oben", "28-0316a15f04ff", 0.0),
-    speicherMitte("Speicher mitte", "28-0416a10cc1ff", 0.0),
-    speicherUnten("Speicher unten", "28-0416a10de1ff", 0.0),
-    testSensor("Test Sensor 1", "28-3c01a8168c89", 0.0)
-    ;
-    std::vector<std::reference_wrapper<temperaturSensor>> tempSensors = {
-      aussenTemperatur, 
-      heizungVorlauf, 
-      heizungRuecklauf, 
-      boilerVorlauf, 
-      boilerRuecklauf, 
-      boilerOben, 
-      boilerUnten,
-      elektroVorlauf,
-      elektroReucklauf,
-      ofenVorlauf,
-      ofenRuecklauf,
-      speicherOben,
-      speicherMitte,
-      speicherUnten,
-      testSensor
-      };
+//// setup
+  
+  /// Pumps
+  // create a vector of GpioOutData structs for each pump we have in the system 
+  std::vector<GpioOutData> pumpsData = {
+    {"Elektropumpe", 26},
+    {"Boilerpumpe", 20},
+    {"Umlaufpumpe", 21},
+    {"Ofenpumpe Stufe1", 19},
+    {"Ofenpumpe Stufe2", 16},
+    {"Ofenpumpe Stufe3", 12}
+  };
+  /// Switches
+  // create a vector of GpioOutData structs for each switch we have in the system 
+  std::vector<GpioOutData> switchData = {
+    {"Elektrorelais", 4},
+    {"Elektromischer opener", 6},
+    {"Elektromischer closer", 5},
+    {"Heizmischer opener", 23},
+    {"Heizmischer closer", 22}
+  };
+  /// Reserve
+  // create a vector of GpioOutData structs for the spare output 
+   std::vector<GpioOutData> spareData = {
+    {"reseve1", 18},
+    {"reseve2", 27},
+    {"reseve3", 17}
+   };
 
-  //// start
+  // create a vector with pointers to all pumps 
+  std::vector<std::__shared_ptr<gpioOutput>> pumps;
+  for (const auto& data : pumpsData) {
+    pumps.push_back(std::make_shared<gpioOutput>(data));
+  }
+   // create a vector with pointers to all stwitches 
+  std::vector<std::__shared_ptr<gpioOutput>> switches;
+  for (const auto& data : switchData) {
+    switches.push_back(std::make_shared<gpioOutput>(data));
+  }
+   // create a vector with pointers to all spares 
+  std::vector<std::__shared_ptr<gpioOutput>> spares;
+  for (const auto& data : spareData) {
+    spares.push_back(std::make_shared<gpioOutput>(data));
+  }
+
+  // give meaningful names to the pionters of the pump vector 
+  std::__shared_ptr<gpioOutput> elektroPumpe = pumps[0];
+  std::__shared_ptr<gpioOutput> boilerPumpe = pumps[1];
+  std::__shared_ptr<gpioOutput> umlaufPumpe = pumps[2];
+  std::__shared_ptr<gpioOutput> ofenPupmeS1 = pumps[3];
+  std::__shared_ptr<gpioOutput> ofenPupmeS2 = pumps[4];
+  std::__shared_ptr<gpioOutput> ofenPupmeS3 = pumps[5];
+  
+  // give meaningful names to the pionters of the switch vector 
+  std::__shared_ptr<gpioOutput> elektroRelais = switches[0];
+  std::__shared_ptr<gpioOutput> elektroMischerOpener = switches[1];
+  std::__shared_ptr<gpioOutput> elektroMischerCloser = switches[2];
+  std::__shared_ptr<gpioOutput> heizMischerOpener = switches[3];
+  std::__shared_ptr<gpioOutput> heizMischerCloser = switches[4];
+  
+  // give meaningful names to the pionters of the switch vector 
+  std::__shared_ptr<gpioOutput> reserve1 = spares[0];
+  std::__shared_ptr<gpioOutput> reserve2 = spares[1];
+  std::__shared_ptr<gpioOutput> reserve3 = spares[2];
+
+  // mischer
+  mischer elektroMischer("Elektromischer", *elektroMischerOpener, *elektroMischerCloser, 5, 10), //default 82
+    heizMischer("Heizmischer", *heizMischerOpener, *heizMischerCloser, 5, 10) //default 60
+    ;
+  /// TemperaturSensors
+  // create a vector of TempSensData structs for each temperature sensor we have in the system
+  std::vector<TempSensData> tSensorData = {
+    {"Aussen Temperatur", "28-0416a10c28ff", 0.0},
+    {"Heizung Vorlauf", "28-0516a12e05ff", 0.0},
+    {"Heizung Rücklauf", "28-0316a162a9ff", 0.0},
+    {"Boiler Volrauf", "28-0516a1529bff", 0.0},
+    {"Boiler Rücklauf", "28-0416a10f65ff", 0.0},
+    {"Boiler Temperatur oben", "28-0416a13049ff", 0.0},
+    {"Boiler Temperatur unten", "28-0416a1295fff", 0.0},
+    {"Durchlauferhitzer Vorlauf", "28-0516a15419ff", 0.0},
+    {"Durchlauferhitzer Rücklauf", "28-0316a15a36ff", 0.0},
+    {"Ofen Vorlauf", "28-0416a12058ff", 0.0},
+    {"Ofen Rücklauf", "28-0416a10e34ff", 0.0},
+    {"Speicher oben", "28-0316a15f04ff", 0.0},
+    {"Speicher mitte", "28-0416a10cc1ff", 0.0},
+    {"Speicher unten", "28-0416a10de1ff", 0.0},
+    {"Test Sensor 1", "28-3c01a8168c89", 0.0}
+  };
+
+  // create a vector with pointers to all temperatur sensors 
+  std::vector<std::__shared_ptr<temperaturSensor>> tSensor;
+  for (const auto& data : tSensorData) {
+    tSensor.push_back(std::make_shared<temperaturSensor>(data));
+  }
+
+  // give meaningful names to the pionters of the tSensor vector
+  std::__shared_ptr<temperaturSensor> aussenTemperatur = tSensor[0];
+  std::__shared_ptr<temperaturSensor> heizungVorlauf = tSensor[1];
+  std::__shared_ptr<temperaturSensor> heizungRuecklauf = tSensor[2];
+  std::__shared_ptr<temperaturSensor> boilerVorlauf = tSensor[3];
+  std::__shared_ptr<temperaturSensor> boilerRuecklauf = tSensor[4];
+  std::__shared_ptr<temperaturSensor> boilerOben = tSensor[5];
+  std::__shared_ptr<temperaturSensor> boilerUnten = tSensor[6];
+  std::__shared_ptr<temperaturSensor> elektroVorlauf = tSensor[7];
+  std::__shared_ptr<temperaturSensor> elektroReucklauf = tSensor[8];
+  std::__shared_ptr<temperaturSensor> ofenVorlauf = tSensor[9];
+  std::__shared_ptr<temperaturSensor> ofenRuecklauf = tSensor[10];
+  std::__shared_ptr<temperaturSensor> speicherOben = tSensor[11];
+  std::__shared_ptr<temperaturSensor> speicherMitte = tSensor[12];
+  std::__shared_ptr<temperaturSensor> speicherUnten = tSensor[13];
+  std::__shared_ptr<temperaturSensor> testSensor = tSensor[14];
+
+//// start
   // set all pumps to off
-  elektroPumpe.off();
-  boilerPumpe.off();
-  umlaufPumpe.off();
-  ofenPupmeS1.off();
-  ofenPupmeS2.off();
-  ofenPupmeS3.off();
+  elektroPumpe->off();
+  boilerPumpe->off();
+  umlaufPumpe->off();
+  ofenPupmeS1->off();
+  ofenPupmeS2->off();
+  ofenPupmeS3->off();
   // close all mischer
   elektroMischer.setStep(1);
   heizMischer.setStep(1);
   // set all switches off
-  elektroRelais.off();
-  reserve1.off();
-  reserve2.off();
-  reserve3.off();
-  // check all temperatur sensors
-  for (auto& sens : tempSensors) {
-    std::cout << sens.get().getName() << ": " << sens.get().getTemp() << "°C\n";
+  elektroRelais->off();
+  reserve1->off();
+  reserve2->off();
+  reserve3->off();
+  
+  // check all temperatur sensors and remove from vector if not found
+  std::cout << tSensor.size() << " elements\n";
+  tSensor.erase(std::remove_if(tSensor.begin(), tSensor.end(),
+    [](const auto& sens) {
+      try {
+        sens->getTemp();
+        return false;
+      } catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        return true;
+      }
+    }), tSensor.end());
+  std::cout << tSensor.size() << " elements\n";
+
+  for (const auto& sens : tSensor) {
+    std::cout << sens->getName() << ": " << sens->getTemp() << "°C\n";
   }
 
-  //// testing
-  std::cout << tempSensors.size() << " elements\n";
-  tempSensors.erase(std::remove_if(tempSensors.begin(), tempSensors.end(),
-  [](auto& sensorRef){return sensorRef.get().getTemp() == -100; }),tempSensors.end());
-  std::cout << tempSensors.size() << " elements\n";
-  /*
-  auto it = std::find_if(tempSensors.begin(), tempSensors.end(),
-    [](auto& sensor) {return sensor.get().getTemp() == -100;});
+//// testing
 
-  if (it != tempSensors.end()) {
-    tempSensors.erase(it);
-  }
-  */
+//// loop
 
-  elektroMischer.setStep(5);
-  elektroMischer.setStep(1);
-  for (auto& sens : tempSensors) {
-    std::cout << sens.get().getName() << ": " << sens.get().getTemp() << "°C\n";
-  }
-  //// loop
-
-  //// close 
+//// close 
   return 0;
 }

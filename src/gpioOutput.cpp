@@ -17,8 +17,8 @@
 std::shared_ptr<gpioChipCommunication> gpioOutput::gpioChipCommunicationInstance;
 
 // Constructor 
-gpioOutput::gpioOutput(std::string ioName, int gpioPin) :
-  gpioPin_(gpioPin), initialized_(false), ioName_(ioName), status_(false), line(nullptr) {
+gpioOutput::gpioOutput(const GpioOutData& data) :
+  gpioPin_(data.gpioPin), initialized_(false), ioName_(data.ioName), status_(false), line(nullptr) {
 }
 // Destructor
 gpioOutput::~gpioOutput() {

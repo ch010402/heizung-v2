@@ -15,10 +15,19 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <stdexcept>
+#include <iostream>
+
+//struct TempSensData (string sensorName, string sensorAddress, double offset)
+struct TempSensData {
+  std::string sensorName;
+  std::string sensorAddress;
+  double offset;
+};
 
 class temperaturSensor {
 public:
-  temperaturSensor(std::string sensorName, std::string sensorAddress, double offset);
+  temperaturSensor(const TempSensData& data);
   ~temperaturSensor();
   
   double getTemp();
@@ -28,6 +37,7 @@ private:
   std::string sensorName_;
   std::string sensorAddresss_;
   double tempOffset_;
+  TempSensData data;
   double temperatur_;
   std::string baseDir_;
   std::string tempFile_;

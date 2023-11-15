@@ -17,10 +17,16 @@
 #include <memory>
 #include "gpioChipCommunication.h"
 
+// struct GpioOutData(string ioName, int gpioPin)
+struct GpioOutData {
+  std::string ioName;
+  int gpioPin;
+};
+
 // gpioOutput(string ioName, int gpioPin)
 class gpioOutput {
 public:
-  gpioOutput(std::string ioName, int gpioPin);
+  gpioOutput(const GpioOutData& data);
   gpioOutput() = default;
   ~gpioOutput();
 
@@ -33,8 +39,9 @@ public:
   bool getInitialized() const;
 private:
   int gpioPin_;
-  bool initialized_;
   std::string ioName_;
+  GpioOutData data;
+  bool initialized_;
   bool status_;
   static std::shared_ptr<gpioChipCommunication> gpioChipCommunicationInstance;
   struct gpiod_line* line;

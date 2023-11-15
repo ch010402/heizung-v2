@@ -11,7 +11,6 @@
 * g++ -c ../src/temperaturSensor.cpp -o temperaturSensor.o -I../include
 */
 
-#include <iostream>
 #include "temperaturSensor.h"
 
 // ANSI escape codes for text color
@@ -20,16 +19,17 @@
 
 // define statics 
 
-
 //Constructor
 
 // temperaturSensor(string sensorName, string sensorAddress, double offset)
-temperaturSensor::temperaturSensor(std::string sensorName, std::string sensorAddress, double offset) :
-sensorName_(sensorName), sensorAddresss_(sensorAddress), tempOffset_(offset) {
-  baseDir_ = "/sys/bus/w1/devices/";
-  tempFile_ = "/w1_slave";
-  path_ = baseDir_ + sensorAddresss_ + tempFile_;
-  //debug text std::cout << sensorName_ << " on " << path_ << " erstellt." << std::endl;
+temperaturSensor::temperaturSensor(const TempSensData& data)
+  :  sensorName_(data.sensorName), 
+  sensorAddresss_(data.sensorAddress), 
+  tempOffset_(data.offset),
+  baseDir_("/sys/bus/w1/devices/"),
+  tempFile_("/w1_slave"),
+  path_(baseDir_ + sensorAddresss_ + tempFile_) {
+  //debug text std::cout << sensorName_ << " on " << path_ << " created." << std::endl;
 }
 
 //Destructor
@@ -39,29 +39,26 @@ temperaturSensor::~temperaturSensor() {}
 
 // double getTemp() returns the temparature as a double in °C
 double temperaturSensor::getTemp() {
-  std::ifstream infile_(path_);
-  if (infile_) {
-    buffer_ << infile_.rdbuf();
-    infile_.close();
-    rawData_ = buffer_.str();
+  infile_.open(path_);
+  if (!infile_) {
+    throw std::runtime_error("Error could not read sensor file: " + sensorName_);
   }
-  else {
-    infile_.close();
-    std::cout << RED_TEXT << "Error could not read sensor file: " << RESET_COLOR << sensorName_ << " ";
-    return -100;
-  }
-  size_t crcCheck_ = rawData_.find("YES");
+  buffer_ << infile_.rdbuf();
+  infile_.close();
+  rawData_ = buffer_.str();
+  
+  crcCheck_ = rawData_.find("YES");
   if (crcCheck_ == std::string::npos) {
-    std::cout << "Error CRC not valid: " << sensorName_ << " ";
-    return -101;
+    throw std::runtime_error("Error CRC not valid: " + sensorName_);
   }
-  size_t temparaturValue_ = rawData_.find("t=");
+
+  temparaturValue_ = rawData_.find("t=");
   if (temparaturValue_ == std::string::npos) {
-    std::cout << "Failed to find a temaparatur value: " << sensorName_ << " ";
-    return -102;
+    throw std::runtime_error("Failed to find a temaparatur value: " + sensorName_);
   }
-  std::string strTemparatur_ = rawData_.substr(temparaturValue_+2);
-  double temperatur_ = stod(strTemparatur_) / 1000;
+
+  strTemparatur_ = rawData_.substr(temparaturValue_+2);
+  temperatur_ = stod(strTemparatur_) / 1000;
   return temperatur_;
 }
 
