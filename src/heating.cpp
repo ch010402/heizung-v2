@@ -204,13 +204,21 @@ int main(int argc, char** argv) {
   for (const auto& p : pumps) {
     p->off();
   }
-  // close all mischer
-  elektroMischer.setStep(1);
-  heizMischer.setStep(1);
   // set all switches off
   for (const auto& s : switches) {
     s->off();
   }
+  // set all spares to off
+  for (const auto& sp : spares) {
+    sp->off();
+  }
+  // close all valves
+  for (const auto& v : valves) {
+    v->off();
+  }
+  // close all mischer
+  elektroMischer.setStep(1);
+  heizMischer.setStep(1);
   
   // check all temperatur sensors and remove from vector if not found
   std::cout << tSensor.size() << " elements\n";
@@ -231,18 +239,27 @@ int main(int argc, char** argv) {
     std::cout << sens->getName() << ": " << sens->getTemp() << "°C\n";
   }
 
-
-
 //// testing
-boilerValve->on();
+//usleep(15 * 1000000);
+std::cout << "switch on 1 \n";
+try {
+  boilerValve->on();
+}
+catch (const std::exception& e) {
+  std::cerr << e.what() << std::endl;
+  usleep(boilerValve->waitToSwitch * 1000000);
+  boilerValve->on();
+}
 usleep(5 * 1000000);
+std::cout << "switch on 2 \n";
 try {
 boilerValve->on();}
 catch (const std::exception& e) {
   std::cerr << e.what() << std::endl;
   usleep(boilerValve->waitToSwitch * 1000000);
-  boilerValve->off();
+  boilerValve->on();
 }
+std::cout << "switch off \n";
 try {
 boilerValve->off();}
 catch (const std::exception& e) {

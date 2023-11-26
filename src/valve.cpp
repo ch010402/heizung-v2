@@ -15,16 +15,16 @@ void valve::on() {
     initialize(); 
     }
   newTime_ = checkTime::getTimeInt();
-  if (getStatus() == false) {
-    if (newTime_ - waitToSwitch > setTime_) {
+  if (status_ == false) {
+    if (newTime_ - waitToSwitch >= setTime_) {
       gpiod_line_set_value(line, 1);
       status_ = true;
       }
     else {
       throw std::runtime_error("Failed to switch " + ioName_ + ", time between on and off too short: <" + std::to_string(waitToSwitch) + "s");
       }
-    }
-    setTime_ = newTime_;
+  }
+  setTime_ = newTime_;
 }
 
 void valve::off() {
@@ -32,19 +32,20 @@ void valve::off() {
     initialize(); 
     }
   newTime_ = checkTime::getTimeInt();
-  if (getStatus() == true) {
-    if (newTime_ - waitToSwitch > setTime_) {
+  if (status_ == true) {
+    if (newTime_ - waitToSwitch >= setTime_) {
       gpiod_line_set_value(line, 0);
       status_ = false;
       }
     else {
       throw std::runtime_error("Failed to switch " + ioName_ + ", time between off and on too short: <" + std::to_string(waitToSwitch) + "s");
       }
-    } 
-    setTime_ = newTime_;
-  }
+  } 
+  setTime_ = newTime_;
+}
 
 
 valve::valve(const ValveData& data) : 
   gpioOutput(data.gpioOut), waitToSwitch(data.timeToSwitch) {
+    setTime_ = -1000;
 }
