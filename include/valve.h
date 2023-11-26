@@ -12,13 +12,21 @@
 
 #define VALVE_H
 
+#include <stdexcept>
 #include "gpioOutput.h"
+
+// struct ValveData(GpioOutData& data, int timeToSwitch)
+struct ValveData {
+  const GpioOutData& gpioOut;
+  int timeToSwitch;
+};
 
 class valve: public gpioOutput {
 public:
-  valve(const GpioOutData& data);
-  //void on();
-  //void off();
+  valve(const ValveData& data);
+  void on() override;
+  void off() override;
+  int waitToSwitch;
 };
 
 #endif //!VALVE_H

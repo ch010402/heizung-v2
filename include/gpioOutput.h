@@ -31,13 +31,14 @@ public:
   gpioOutput() = default;
   ~gpioOutput();
 
-  void on();
-  void off();
+  virtual void on();
+  virtual void off();
   void toggle();
 
   std::string getName() const;
   int getPin() const;
   bool getInitialized() const;
+  bool getStatus() const;
 private:
 protected:
   int gpioPin_;
@@ -45,11 +46,11 @@ protected:
   GpioOutData data;
   static std::shared_ptr<gpioChipCommunication> gpioChipCommunicationInstance;
   int setTime_;
+  int newTime_;
   bool status_;
   bool initialized_;
   void initialize();
   struct gpiod_line* line;
-  //checkTime* setTime;
 };
 
 #endif // !GPIO_OUTPUT_H

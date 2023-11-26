@@ -9,24 +9,42 @@
 */
 
 #include "valve.h"
-/*
+
 void valve::on() {
-  if (!initialized_) { initialize(); }
-  gpiod_line_set_value(line, 1);
-  setTime_ = checkTime::getTimeInt();
-  std::cout << setTime_ << std::endl;
-  status_ = true;
+  if (!initialized_) { 
+    initialize(); 
+    }
+  newTime_ = checkTime::getTimeInt();
+  if (getStatus() == false) {
+    if (newTime_ - waitToSwitch > setTime_) {
+      gpiod_line_set_value(line, 1);
+      status_ = true;
+      }
+    else {
+      throw std::runtime_error("Failed to switch " + ioName_ + ", time between on and off too short: <" + std::to_string(waitToSwitch) + "s");
+      }
+    }
+    setTime_ = newTime_;
 }
 
 void valve::off() {
-    if (!initialized_) { initialize(); }
-    gpiod_line_set_value(line, 0);
-    setTime_ = checkTime::getTimeInt();
-    std::cout << setTime_ << std::endl;
-    status_ = false;
+  if (!initialized_) { 
+    initialize(); 
+    }
+  newTime_ = checkTime::getTimeInt();
+  if (getStatus() == true) {
+    if (newTime_ - waitToSwitch > setTime_) {
+      gpiod_line_set_value(line, 0);
+      status_ = false;
+      }
+    else {
+      throw std::runtime_error("Failed to switch " + ioName_ + ", time between off and on too short: <" + std::to_string(waitToSwitch) + "s");
+      }
+    } 
+    setTime_ = newTime_;
   }
-*/
 
-valve::valve(const GpioOutData& data) : 
-  gpioOutput(data) {
+
+valve::valve(const ValveData& data) : 
+  gpioOutput(data.gpioOut), waitToSwitch(data.timeToSwitch) {
 }

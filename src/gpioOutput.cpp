@@ -25,8 +25,8 @@ gpioOutput::~gpioOutput() {
   // Ensure the IO is turned off before releasing the line
   gpioOutput::off();
   if (line) {
-	gpiod_line_release(line);
-  }
+    gpiod_line_release(line);
+    }
   initialized_ = false;
 }
 
@@ -34,21 +34,29 @@ gpioOutput::~gpioOutput() {
 
 //void on() sets an output on if it is not already on
 void gpioOutput::on() {
-  if (!initialized_) { initialize(); }
-  gpiod_line_set_value(line, 1);
-  setTime_ = checkTime::getTimeInt();
-  status_ = true;
+  if (!initialized_) { 
+    initialize(); 
+    }
+  if (status_ == false) {
+    gpiod_line_set_value(line, 1);
+    status_ = true;
+    }
+    setTime_ = checkTime::getTimeInt();
 }
 //void off() sets the output off if it is not already off
 void gpioOutput::off() {
   if (!initialized_) { initialize(); }
-  gpiod_line_set_value(line, 0);
+  if (status_ == true) {
+    gpiod_line_set_value(line, 0);
+    status_ = false;
+    }
   setTime_ = checkTime::getTimeInt();
-  status_ = false;
 }
 //void toggle() stwitches the state of the output
 void gpioOutput::toggle() {
-  if (!initialized_) { initialize(); }
+  if (!initialized_) { 
+    initialize(); 
+    }
   gpiod_line_set_value(line, status_ ? 0:1);
   setTime_ = checkTime::getTimeInt();
   status_ = !status_;
@@ -65,12 +73,16 @@ int gpioOutput::getPin() const {
 bool gpioOutput::getInitialized() const {
   return initialized_;
 }
-//PRIVATE void initialize() initializes the gpio output
+//bool getStatus() returs TRUE or FALSE, status of the gpioOutput
+bool gpioOutput::getStatus() const {
+  return status_;
+}
+// PRIVATE void initialize() initializes the gpio output
 void gpioOutput::initialize() {
   std::cout << "Initialisiere Output: " << ioName_;
   if (!gpioChipCommunicationInstance) {
-	gpioChipCommunicationInstance = std::make_shared<gpioChipCommunication>();
-  }
+    gpioChipCommunicationInstance = std::make_shared<gpioChipCommunication>();
+    }
   line = gpiod_chip_get_line(gpioChipCommunicationInstance->chip, gpioPin_);
   gpiod_line_request_output(line, "output", 0);
   initialized_ = true;
