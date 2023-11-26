@@ -29,6 +29,7 @@ public:
   int getMinute();
   int getSecond();
   int getWeekday();
+  int getTimeInt();
   std::vector<int> getTime();
   std::vector<int> getDate();
   bool checkLowTarif();

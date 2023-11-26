@@ -16,6 +16,7 @@
 #include <gpiod.h>
 #include <memory>
 #include "gpioChipCommunication.h"
+#include "checkTime.h"
 
 // struct GpioOutData(string ioName, int gpioPin)
 struct GpioOutData {
@@ -41,12 +42,14 @@ private:
   int gpioPin_;
   std::string ioName_;
   GpioOutData data;
-  bool initialized_;
-  bool status_;
   static std::shared_ptr<gpioChipCommunication> gpioChipCommunicationInstance;
-  struct gpiod_line* line;
-
+protected:
+  int setTime_;
+  bool status_;
+  bool initialized_;
   void initialize();
+  struct gpiod_line* line;
+  checkTime* setTime;
 };
 
 #endif // !GPIO_OUTPUT_H

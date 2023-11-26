@@ -41,6 +41,7 @@
 #include "temperaturSensor.h"
 #include "mischer.h"
 #include "checkTime.h"
+#include "valve.h"
 
 /*misc*/
 
@@ -69,6 +70,8 @@ int main(int argc, char** argv) {
   signal(SIGINT, handleSigInt);
 
 //// setup
+
+  checkTime* TimeNow = new checkTime();
   
   /// Pumps
   // create a vector of GpioOutData structs for each pump we have in the system 
@@ -83,11 +86,17 @@ int main(int argc, char** argv) {
   /// Switches
   // create a vector of GpioOutData structs for each switch we have in the system 
   std::vector<GpioOutData> switchData = {
-    {"Elektrorelais", 4},
-    {"Elektromischer opener", 6},
-    {"Elektromischer closer", 5},
-    {"Heizmischer opener", 23},
-    {"Heizmischer closer", 22}
+    {"Elektrorelais", 23},
+    {"Elektromischer opener", 25},
+    {"Elektromischer closer", 24},
+    {"Heizmischer opener", 13},
+    {"Heizmischer closer", 6}
+  };
+  /// Valves
+  // create a vector of GpioOutData structs for the valves in the system
+  std::vector<GpioOutData> valveData = {
+    {"Boilerventil", 5},
+    {"Speicherventil", 22}
   };
   /// Reserve
   // create a vector of GpioOutData structs for the spare output 
@@ -106,6 +115,11 @@ int main(int argc, char** argv) {
   std::vector<std::__shared_ptr<gpioOutput>> switches;
   for (const auto& data : switchData) {
     switches.push_back(std::make_shared<gpioOutput>(data));
+  }
+  // create a vector with pointers to all valves 
+  std::vector<std::__shared_ptr<valve>> valves;
+  for (const auto& data : valveData) {
+    valves.push_back(std::make_shared<valve>(data));
   }
    // create a vector with pointers to all spares 
   std::vector<std::__shared_ptr<gpioOutput>> spares;
@@ -128,10 +142,14 @@ int main(int argc, char** argv) {
   std::__shared_ptr<gpioOutput> heizMischerOpener = switches[3];
   std::__shared_ptr<gpioOutput> heizMischerCloser = switches[4];
   
-  // give meaningful names to the pionters of the switch vector 
+  // give meaningful names to the pionters of the spares 
   std::__shared_ptr<gpioOutput> reserve1 = spares[0];
   std::__shared_ptr<gpioOutput> reserve2 = spares[1];
   std::__shared_ptr<gpioOutput> reserve3 = spares[2];
+
+  // give meaningful names to the pionters of the switch vector 
+  std::__shared_ptr<valve> boilerValve = valves[0];
+  std::__shared_ptr<valve> speicherValve = valves[1];
 
   // mischer
   mischer elektroMischer("Elektromischer", *elektroMischerOpener, *elektroMischerCloser, 5, 10), //default 82
@@ -182,43 +200,43 @@ int main(int argc, char** argv) {
 
 //// start
   // set all pumps to off
-  elektroPumpe->off();
-  boilerPumpe->off();
-  umlaufPumpe->off();
-  ofenPupmeS1->off();
-  ofenPupmeS2->off();
-  ofenPupmeS3->off();
+  for (const auto& p : pumps) {
+    p->off();
+  }
   // close all mischer
   elektroMischer.setStep(1);
   heizMischer.setStep(1);
   // set all switches off
-  elektroRelais->off();
-  reserve1->off();
-  reserve2->off();
-  reserve3->off();
+  for (const auto& s : switches) {
+    s->off();
+  }
   
   // check all temperatur sensors and remove from vector if not found
   std::cout << tSensor.size() << " elements\n";
   tSensor.erase(std::remove_if(tSensor.begin(), tSensor.end(),
     [](const auto& sens) {
       try {
-        sens->getTemp();
-        return false;
+        sens->getTemp(); // Try accessing the temperature
+        return false; // Keep the sensor in the vector
       } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
-        return true;
+        return true; // Remove the sensor from the vector
       }
     }), tSensor.end());
   std::cout << tSensor.size() << " elements\n";
-
+  
+  // Print remaining sensors
   for (const auto& sens : tSensor) {
     std::cout << sens->getName() << ": " << sens->getTemp() << "°C\n";
   }
 
 //// testing
-
+boilerValve->on();
+usleep(5 * 1000000);
+boilerValve->off();
 //// loop
 
 //// close 
+  delete TimeNow;
   return 0;
 }

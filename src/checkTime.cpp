@@ -84,6 +84,12 @@ int checkTime::getWeekday() {
   return currentTime_tm->tm_wday;
 }
 
+int checkTime::getTimeInt()
+{
+  int timeInt = getHour() * 3600 + getMinute() * 60 + getSecond();
+  return timeInt;
+}
+
 std::vector<int> checkTime::getTime() {
   std::vector<int> nowTime;
   nowTime.push_back(getHour());
