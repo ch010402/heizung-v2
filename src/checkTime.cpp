@@ -13,22 +13,23 @@
 
 #include "checkTime.h"
 
-// Constructor 
-
-// void checkTime() creates a time object
-checkTime::checkTime() {
-  
-}
-
-// Destructor 
-checkTime::~checkTime()
+// Satic member function to get the instance
+checkTime &checkTime::get()
 {
+  static checkTime instance;
+  return instance;
 }
 
+/// private Constructor
+// void checkTime() creates a time object
+checkTime::checkTime() {}
 
-// functions
+/// private Destructor 
+checkTime::~checkTime() {}
 
-int checkTime::getYear() {
+/// functions
+
+int checkTime::IgetYear() {
   auto currentTime = std::chrono::system_clock::now();
   std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
   std::string currentTimeStr = std::ctime(&currentTime_t);
@@ -36,7 +37,7 @@ int checkTime::getYear() {
   return currentTime_tm->tm_year + 1900;
 }
 
-int checkTime::getMonth() {
+int checkTime::IgetMonth() {
   auto currentTime = std::chrono::system_clock::now();
   std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
   std::string currentTimeStr = std::ctime(&currentTime_t);
@@ -44,7 +45,7 @@ int checkTime::getMonth() {
   return currentTime_tm->tm_mon + 1;
 }
 
-int checkTime::getDay() {
+int checkTime::IgetDay() {
   auto currentTime = std::chrono::system_clock::now();
   std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
   std::string currentTimeStr = std::ctime(&currentTime_t);
@@ -52,7 +53,7 @@ int checkTime::getDay() {
   return currentTime_tm->tm_mday;
 }
 
-int checkTime::getHour() {
+int checkTime::IgetHour() {
   auto currentTime = std::chrono::system_clock::now();
   std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
   std::string currentTimeStr = std::ctime(&currentTime_t);
@@ -60,7 +61,7 @@ int checkTime::getHour() {
   return currentTime_tm->tm_hour;
 }
 
-int checkTime::getMinute() {
+int checkTime::IgetMinute() {
   auto currentTime = std::chrono::system_clock::now();
   std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
   std::string currentTimeStr = std::ctime(&currentTime_t);
@@ -68,7 +69,7 @@ int checkTime::getMinute() {
   return currentTime_tm->tm_min;
 }
 
-int checkTime::getSecond() {
+int checkTime::IgetSecond() {
   auto currentTime = std::chrono::system_clock::now();
   std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
   std::string currentTimeStr = std::ctime(&currentTime_t);
@@ -76,7 +77,7 @@ int checkTime::getSecond() {
   return currentTime_tm->tm_sec;
 }
 
-int checkTime::getWeekday() {
+int checkTime::IgetWeekday() {
   auto currentTime = std::chrono::system_clock::now();
   std::time_t currentTime_t = std::chrono::system_clock::to_time_t(currentTime);
   std::string currentTimeStr = std::ctime(&currentTime_t);
@@ -84,31 +85,31 @@ int checkTime::getWeekday() {
   return currentTime_tm->tm_wday;
 }
 
-int checkTime::getTimeInt()
+int checkTime::IgetTimeInt()
 {
-  int timeInt = getHour() * 3600 + getMinute() * 60 + getSecond();
+  int timeInt = IgetHour() * 3600 + IgetMinute() * 60 + IgetSecond();
   return timeInt;
 }
 
-std::vector<int> checkTime::getTime() {
+std::vector<int> checkTime::IgetTime() {
   std::vector<int> nowTime;
-  nowTime.push_back(getHour());
-  nowTime.push_back(getMinute());
-  nowTime.push_back(getSecond());
+  nowTime.push_back(IgetHour());
+  nowTime.push_back(IgetMinute());
+  nowTime.push_back(IgetSecond());
   return nowTime;
 }
 
-std::vector<int> checkTime::getDate() {
+std::vector<int> checkTime::IgetDate() {
   std::vector<int> nowDate;
-  nowDate.push_back(getDay());
-  nowDate.push_back(getMonth());
-  nowDate.push_back(getYear());
+  nowDate.push_back(IgetDay());
+  nowDate.push_back(IgetMonth());
+  nowDate.push_back(IgetYear());
   return nowDate;
 }
 
-bool checkTime::checkLowTarif() {
-  int weekday_ = getWeekday();
-  int hour_ = getHour();
+bool checkTime::IcheckLowTarif() {
+  int weekday_ = IgetWeekday();
+  int hour_ = IgetHour();
   if (weekday_ == 0 || weekday_ == 6) {
 	return true;
   }
@@ -116,4 +117,59 @@ bool checkTime::checkLowTarif() {
 	return true;
   }
   return false;
+}
+
+int checkTime::getYear()
+{
+  return get().IgetYear();
+}
+
+int checkTime::getMonth()
+{
+  return get().IgetMonth();
+}
+
+int checkTime::getDay()
+{
+  return get().IgetDay();
+}
+
+int checkTime::getHour()
+{
+  return get().IgetHour();
+}
+
+int checkTime::getMinute()
+{
+  return get().IgetMinute();
+}
+
+int checkTime::getSecond()
+{
+  return get().IgetSecond();
+}
+
+int checkTime::getWeekday()
+{
+  return get().IgetWeekday();
+}
+
+int checkTime::getTimeInt()
+{
+  return get().IgetTimeInt();
+}
+
+std::vector<int> checkTime::getTime()
+{
+  return get().IgetTime();
+}
+
+std::vector<int> checkTime::getDate()
+{
+  return get().IgetDate();
+}
+
+bool checkTime::checkLowTarif()
+{
+  return get().IcheckLowTarif();
 }

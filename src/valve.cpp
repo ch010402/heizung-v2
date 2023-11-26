@@ -9,11 +9,11 @@
 */
 
 #include "valve.h"
-
+/*
 void valve::on() {
   if (!initialized_) { initialize(); }
   gpiod_line_set_value(line, 1);
-  setTime_ = setTime->getTimeInt();
+  setTime_ = checkTime::getTimeInt();
   std::cout << setTime_ << std::endl;
   status_ = true;
 }
@@ -21,7 +21,12 @@ void valve::on() {
 void valve::off() {
     if (!initialized_) { initialize(); }
     gpiod_line_set_value(line, 0);
-    setTime_ = setTime->getTimeInt();
+    setTime_ = checkTime::getTimeInt();
     std::cout << setTime_ << std::endl;
     status_ = false;
   }
+*/
+
+valve::valve(const GpioOutData& data) : 
+  gpioOutput(data) {
+}

@@ -16,8 +16,9 @@
 
 class valve: public gpioOutput {
 public:
-  void on();
-  void off();
+  valve(const GpioOutData& data);
+  //void on();
+  //void off();
 };
 
 #endif //!VALVE_H

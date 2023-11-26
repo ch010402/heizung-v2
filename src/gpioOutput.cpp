@@ -15,7 +15,6 @@
 
 // Define the static member
 std::shared_ptr<gpioChipCommunication> gpioOutput::gpioChipCommunicationInstance;
-checkTime* setTime = new checkTime;
 
 // Constructor 
 gpioOutput::gpioOutput(const GpioOutData& data) :
@@ -37,21 +36,21 @@ gpioOutput::~gpioOutput() {
 void gpioOutput::on() {
   if (!initialized_) { initialize(); }
   gpiod_line_set_value(line, 1);
-  setTime_ = setTime->getTimeInt();
+  setTime_ = checkTime::getTimeInt();
   status_ = true;
 }
 //void off() sets the output off if it is not already off
 void gpioOutput::off() {
   if (!initialized_) { initialize(); }
   gpiod_line_set_value(line, 0);
-  setTime_ = setTime->getTimeInt();
+  setTime_ = checkTime::getTimeInt();
   status_ = false;
 }
 //void toggle() stwitches the state of the output
 void gpioOutput::toggle() {
   if (!initialized_) { initialize(); }
   gpiod_line_set_value(line, status_ ? 0:1);
-  setTime_ = setTime->getTimeInt();
+  setTime_ = checkTime::getTimeInt();
   status_ = !status_;
 }
 //string getName() retuns the name as string value 

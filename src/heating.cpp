@@ -71,8 +71,6 @@ int main(int argc, char** argv) {
 
 //// setup
 
-  checkTime* TimeNow = new checkTime();
-  
   /// Pumps
   // create a vector of GpioOutData structs for each pump we have in the system 
   std::vector<GpioOutData> pumpsData = {
@@ -230,6 +228,8 @@ int main(int argc, char** argv) {
     std::cout << sens->getName() << ": " << sens->getTemp() << "°C\n";
   }
 
+
+
 //// testing
 boilerValve->on();
 usleep(5 * 1000000);
@@ -237,6 +237,5 @@ boilerValve->off();
 //// loop
 
 //// close 
-  delete TimeNow;
-  return 0;
+return 0;
 }

@@ -9,7 +9,6 @@
 */
 
 #ifndef CHECKTIME_H
-
 #define CHECKTIME_H
 
 #include <chrono>
@@ -18,22 +17,45 @@
 
 // void checkTime() creates a time object
 class checkTime {
-public:
-  checkTime();
-  ~checkTime();
 
-  int getYear();
-  int getMonth();
-  int getDay();
-  int getHour();
-  int getMinute();
-  int getSecond();
-  int getWeekday();
-  int getTimeInt();
-  std::vector<int> getTime();
-  std::vector<int> getDate();
-  bool checkLowTarif();
+public:
+  static checkTime& get();
+  
+  // copy constructor and assignment operator to prevent cloning
+  checkTime(const checkTime&) = delete;
+  checkTime& operator=(const checkTime&) = delete;
+
+  static int getYear();
+  static int getMonth();
+  static int getDay();
+  static int getHour();
+  static int getMinute();
+  static int getSecond();
+  static int getWeekday();
+  static int getTimeInt();
+  static std::vector<int> getTime();
+  static std::vector<int> getDate();
+  static bool checkLowTarif();
+
 private:
+  // Private constructor to prevent external instantiation
+  checkTime();
+  // Private destructor to prevent external deletion
+  ~checkTime();
+  
+  // memeber functions
+  int IgetYear();
+  int IgetMonth();
+  int IgetDay();
+  int IgetHour();
+  int IgetMinute();
+  int IgetSecond();
+  int IgetWeekday();
+  int IgetTimeInt();
+  std::vector<int> IgetTime();
+  std::vector<int> IgetDate();
+  bool IcheckLowTarif();
+  // member structs
   struct actualTime;
   struct actualDate;
 };

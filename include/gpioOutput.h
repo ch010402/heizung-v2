@@ -39,17 +39,17 @@ public:
   int getPin() const;
   bool getInitialized() const;
 private:
+protected:
   int gpioPin_;
   std::string ioName_;
   GpioOutData data;
   static std::shared_ptr<gpioChipCommunication> gpioChipCommunicationInstance;
-protected:
   int setTime_;
   bool status_;
   bool initialized_;
   void initialize();
   struct gpiod_line* line;
-  checkTime* setTime;
+  //checkTime* setTime;
 };
 
 #endif // !GPIO_OUTPUT_H
